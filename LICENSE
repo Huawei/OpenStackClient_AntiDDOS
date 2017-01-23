@@ -34,7 +34,7 @@
 
       "Work" shall mean the work of authorship, whether in Source or
       Object form, made available under the License, as indicated by a
-      copyright notice that is included in or has_attached to the work
+      copyright notice that is included in or attached to the work
       (an example is provided in the Appendix below).
 
       "Derivative Works" shall mean any work, whether in Source or Object
@@ -186,7 +186,7 @@
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright 2013, Rackspace (http://www.rackspace.com)
+   Copyright {yyyy} {name of copyright owner}
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
