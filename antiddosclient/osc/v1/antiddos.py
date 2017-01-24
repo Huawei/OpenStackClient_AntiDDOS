@@ -253,7 +253,7 @@ class ListAntiDDosDailyReport(command.Lister):
     _description = _("List AntiDDos report(every 5min) of past 24h")
 
     def get_parser(self, prog_name):
-        parser = super(ShowAntiDDosStatus, self).get_parser(prog_name)
+        parser = super(ListAntiDDosDailyReport, self).get_parser(prog_name)
         AntiDDosParser.add_floating_ip_arg(parser)
         return parser
 

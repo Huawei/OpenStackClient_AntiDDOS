@@ -109,7 +109,7 @@ class AntiDDosDailyReport(resource.Resource, display.Display):
 
     @property
     def start_time(self):
-        return utils.format_time(self.period_start)
+        return utils.format_time(self.period_start * 1000)
 
 
 class AntiDDosLog(resource.Resource, display.Display):
@@ -126,11 +126,11 @@ class AntiDDosLog(resource.Resource, display.Display):
 
     @property
     def log_start_time(self):
-        return utils.format_time(self.start_time)
+        return utils.format_time(self.start_time * 1000)
 
     @property
     def log_end_time(self):
-        return utils.format_time(self.end_time)
+        return utils.format_time(self.end_time * 1000)
 
     @property
     def antiddos_status(self):

@@ -68,15 +68,16 @@ Command Samples
     Request Received, task id: 13f621cb-3dfa-4d96-9821-cd7d11fb15af
 
 
-#. antiddos task status show (查看AntiDDos任务状态）
+#. antiddos task show (查看AntiDDos任务状态）
 
 .. code:: console
 
-    $ openstack antiddos task status show 11427e0f-dc37-4319-a0e2-390e560fe116
+    $ openstack antiddos task show 11427e0f-dc37-4319-a0e2-390e560fe116
     +--------------+---------+
     | Field        | Value   |
     +--------------+---------+
     | Task Status  | success |
+    | Task Message |         |
     +--------------+---------+
 
 
@@ -129,8 +130,31 @@ Command Samples
 .. code:: console
 
     $ openstack antiddos status show 160.44.197.150
-    +--------------+---------+
-    | Field        | Value   |
-    +--------------+---------+
-    | Task Status  | success |
-    +--------------+---------+
+    +--------+--------+
+    | Field  | Value  |
+    +--------+--------+
+    | status | normal |
+    +--------+--------+
+
+
+#. antiddos daily (查看AntiDDos防护流量）
+
+.. code:: console
+
+    $ openstack antiddos daily 160.44.197.150
+    +--------+--------+
+    | Field  | Value  |
+    +--------+--------+
+    | status | normal |
+    +--------+--------+
+
+#. antiddos logs (查看AntiDDos防护状态）
+
+.. code:: console
+
+    $ openstack antiddos status show 160.44.197.150
+    +--------+--------+
+    | Field  | Value  |
+    +--------+--------+
+    | status | normal |
+    +--------+--------+

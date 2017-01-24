@@ -85,7 +85,11 @@ class AntiDDosManager(manager.Manager):
 
     def get_antiddos(self, floating_ip_id):
         """get anti DDos"""
-        return self._get("/antiddos/%s" % floating_ip_id)
+        _antiddos = self._get("/antiddos/%s" % floating_ip_id)
+        if isinstance(_antiddos, antiddos.AntiDDos):
+            # server does not return floating ip id in response..
+            _antiddos.floating_ip_id = floating_ip_id
+        return _antiddos
 
     def update_antiddos(
             self,

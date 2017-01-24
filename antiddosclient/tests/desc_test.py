@@ -15,6 +15,7 @@
 #
 import six
 from antiddosclient.common import resource
+from antiddosclient.common import utils
 
 
 class MyClass(object):
@@ -38,6 +39,7 @@ class SampleResource(resource.Resource):
     pass
 
 if __name__ == "__main__":
+
     r = SampleResource(None, dict(foo='bar', baz='spam'))
     print zip(*sorted(six.iteritems(dict(foo='bar', baz='spam'))))
 
