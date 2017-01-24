@@ -23,6 +23,7 @@ Command Line Client Usage
 .. note::
 
     The command line client is self-documenting. Use the --help or -h flag to access the usage options.
+    You can find more command line client examples `here <./commands.rst>`_
 
 This plugin is integrated with `OpenStack Client`_ , so the command line client
 follow all the usage **openstack** provided.

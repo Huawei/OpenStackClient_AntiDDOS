@@ -42,7 +42,7 @@ class AntiDDosManager(manager.Manager):
             results = self.list(ip=keyword)
             matched_number = len(results)
             if matched_number > 1:
-                raise execs.NoUniqueMatch
+                raise execs.NotUniqueMatch
             elif matched_number == 1:
                 return results[0]
 
