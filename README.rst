@@ -172,6 +172,3 @@ Here's an example of listing antiddos status using Python library with keystone 
 .. _OpenStack Client: https://github.com/openstack/python-openstackclient
 .. _AntiDDos Offical Document: http://support.hwclouds.com/antiddos_dld/index.html
 .. _KeyStone: http://docs.openstack.org/developer/keystoneauth/
-
-
-.. [1] Documentation in this link is currently incomplete. Please use the `devstack setup <http://docs.openstack.org/developer/barbican/setup/devstack.html>`__.
