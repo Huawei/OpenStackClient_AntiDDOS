@@ -57,6 +57,11 @@ class AntiDDosTask(resource.Resource, display.Display):
         'Task Message',
     )
 
+    list_column_names = (
+        'Task Status',
+        'Task Message',
+    )
+
     @property
     def task_message(self):
         return self.task_msg

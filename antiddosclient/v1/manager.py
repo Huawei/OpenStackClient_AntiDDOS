@@ -134,7 +134,7 @@ class AntiDDosManager(manager.Manager):
     def get_antiddos_status(self, floating_ip_id):
         """get anti-ddos status of EIP"""
         url = "/antiddos/%s/status" % floating_ip_id
-        return self._get(url, resource_class=antiddos.AntiDDosStatus)
+        return self._get(url, raw=True)
 
     def get_antiddos_daily_report(self, floating_ip_id):
         """get past 24 hours anti-ddos protection report(every 5 minutes) of EIP"""

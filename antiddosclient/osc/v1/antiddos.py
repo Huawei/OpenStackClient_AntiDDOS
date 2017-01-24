@@ -246,8 +246,7 @@ class ShowAntiDDosStatus(command.ShowOne):
         manager = self.app.client_manager.antiddos.antiddos
         floating_ip = manager.find(args.floating_ip)
         antiddos_status = manager.get_antiddos_status(floating_ip.floating_ip_id)
-        columns = antiddos.AntiDDosTask.show_column_names
-        return columns, antiddos_status.get_display_data(columns)
+        return zip(*sorted(six.iteritems(antiddos_status)))
 
 
 class ListAntiDDosDailyReport(command.Lister):
