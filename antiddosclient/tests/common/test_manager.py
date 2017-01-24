@@ -50,6 +50,7 @@ class TestManager(base.BaseTestCase):
         expect_url = (fakes.FAKE_RESOURCE_ITEM_URL % fakes.FAKE_RESOURCE_ID)
         mocked.assert_called_once_with(expect_url,
                                        "GET",
+                                       params={},
                                        headers=self._headers)
 
         result = self.manager.get(self.resource, raw=True)
