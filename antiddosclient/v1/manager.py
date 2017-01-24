@@ -42,6 +42,10 @@ class AntiDDosManager(manager.Manager):
             results = self.list(ip=keyword)
             matched_number = len(results)
             if matched_number > 1:
+                exactly_matched = [obj for obj in results
+                                   if obj.floating_ip_address == keyword]
+                if len(exactly_matched) == 1:
+                    return exactly_matched[0]
                 raise execs.NotUniqueMatch
             elif matched_number == 1:
                 return results[0]

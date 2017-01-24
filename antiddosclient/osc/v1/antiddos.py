@@ -155,7 +155,7 @@ class ShowAntiDDos(command.ShowOne):
     def take_action(self, args):
         client = self.app.client_manager.antiddos
         _antiddos = client.antiddos.find(args.floating_ip)
-        columns = antiddos.AntiDDos.show_column_names
+        columns = antiddos.AntiDDos.list_column_names
         return columns, _antiddos.get_display_data(columns)
 
 
@@ -242,8 +242,8 @@ class ShowAntiDDosStatus(command.ShowOne):
     def take_action(self, args):
         manager = self.app.client_manager.antiddos.antiddos
         floating_ip = manager.find(args.floating_ip)
-        status = manager.get_antiddos_status(floating_ip.floating_ip_id)
-        return zip(*sorted(six.iteritems(status)))
+        antiddos_status = manager.get_antiddos_status(floating_ip.floating_ip_id)
+        return 'Status', antiddos_status.status
 
 
 class ListAntiDDosDailyReport(command.Lister):

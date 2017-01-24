@@ -30,18 +30,18 @@ class AntiDDos(resource.Resource, display.Display):
     ]
 
     list_column_names = (
-        'Floating IP id',
-        'floating ip address',
+        'floating IP id',
+        'floating IP address',
         'network type',
         'status',
     )
 
     show_column_names = (
-        'Enable L7',
-        'Traffic pos id',
-        'Http request pos id',
-        'Cleaning access pos id',
-        'App Type id'
+        'enable L7',
+        'traffic pos id',
+        'http request pos id',
+        'cleaning access pos id',
+        'app Type id'
     )
 
     @property

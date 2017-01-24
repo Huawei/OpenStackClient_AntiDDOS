@@ -3,7 +3,7 @@ Command Samples
 
 1. antiddos config
 
-* antiddos open (开启AntiDDos）
+#. antiddos open (开启AntiDDos）
 
 .. code:: console
 
@@ -16,7 +16,7 @@ Command Samples
             --cleaning-access-pos=1 --app-type=1
 
 
-* antiddos close (关闭AntiDDos）
+#. antiddos close (关闭AntiDDos）
 
 .. code:: console
 
@@ -27,16 +27,59 @@ Command Samples
 
 
 
-* antiddos show (查看AntiDDos）
+#. antiddos show (查看AntiDDos）
 
 .. code:: console
 
     # show antiddos with ip
-    $ openstack antiddos show 160.44.196.90
-    # close antiddos with floating ip id
-    $ openstack antiddos show 194bca90-9c23-43fb-b744-9d0bbd043a76
+    $ openstack antiddos show 160.44.197.150
+    +---------------------+--------------------------------------+
+    | Field               | Value                                |
+    +---------------------+--------------------------------------+
+    | Floating IP id      | 11427e0f-dc37-4319-a0e2-390e560fe116 |
+    | floating ip address | 160.44.197.150                       |
+    | network type        | EIP                                  |
+    | status              | normal                               |
+    +---------------------+--------------------------------------+
 
-* antiddos status list (查看AntiDDos状态列表）
+    # show antiddos with floating ip id
+    $ openstack antiddos show 11427e0f-dc37-4319-a0e2-390e560fe116
+    +---------------------+--------------------------------------+
+    | Field               | Value                                |
+    +---------------------+--------------------------------------+
+    | Floating IP id      | 11427e0f-dc37-4319-a0e2-390e560fe116 |
+    | floating ip address | 160.44.197.150                       |
+    | network type        | EIP                                  |
+    | status              | normal                               |
+    +---------------------+--------------------------------------+
+
+#. antiddos set (更新AntiDDos设置）
+
+.. code:: console
+
+    # show antiddos with ip
+    $ openstack antiddos show 160.44.197.150
+    +---------------------+--------------------------------------+
+    | Field               | Value                                |
+    +---------------------+--------------------------------------+
+    | Floating IP id      | 11427e0f-dc37-4319-a0e2-390e560fe116 |
+    | floating ip address | 160.44.197.150                       |
+    | network type        | EIP                                  |
+    | status              | normal                               |
+    +---------------------+--------------------------------------+
+
+    # show antiddos with floating ip id
+    $ openstack antiddos show 11427e0f-dc37-4319-a0e2-390e560fe116
+    +---------------------+--------------------------------------+
+    | Field               | Value                                |
+    +---------------------+--------------------------------------+
+    | Floating IP id      | 11427e0f-dc37-4319-a0e2-390e560fe116 |
+    | floating ip address | 160.44.197.150                       |
+    | network type        | EIP                                  |
+    | status              | normal                               |
+    +---------------------+--------------------------------------+
+
+#. antiddos status list (查看AntiDDos状态列表）
 
 .. code:: console
 
