@@ -1,4 +1,4 @@
-python-barbicanclient
+python-antiddosclient
 =====================
 
 This is a `OpenStack Client`_ plugin for HuaWei AntiDDos Management API which
