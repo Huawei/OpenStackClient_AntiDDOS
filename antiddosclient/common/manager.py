@@ -101,8 +101,9 @@ class Manager(object):
         else:
             return self.resource_class(self, content, resp=resp)
 
-    def _get(self, url, key=None, raw=False, resource_class=None, headers={}):
-        resp, body = self.http_client.get(url, headers=headers)
+    def _get(self, url, params={}, key=None, raw=False, resource_class=None,
+             headers={}):
+        resp, body = self.http_client.get(url, params=params, headers=headers)
         # get required body part
         if body:
             content = body[key] if key else body

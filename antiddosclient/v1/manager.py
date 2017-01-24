@@ -126,9 +126,9 @@ class AntiDDosManager(manager.Manager):
 
     def get_task_status(self, task_id):
         """get anti-ddos task status"""
-        url = "/antiddos/query_task_status"
+        url = "/query_task_status"
         return self._get(url,
-                         data=dict(task_id=task_id),
+                         params=dict(task_id=task_id),
                          resource_class=antiddos.AntiDDosTask)
 
     def get_antiddos_status(self, floating_ip_id):

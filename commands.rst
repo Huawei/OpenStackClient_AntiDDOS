@@ -10,10 +10,12 @@ Command Samples
     # open antiddos with IP
     $ openstack antiddos open 160.44.196.90 --enable-l7 --traffic-pos=1 --http-request-pos=1
             --cleaning-access-pos=1 --app-type=1
+    Request Received, task id: 13f621cb-3dfa-4d96-9821-cd7d11fb15af
 
     # open antiddos with floating ip id
     $ openstack antiddos open 194bca90-9c23-43fb-b744-9d0bbd043a76 --enable-l7 --traffic-pos=1 --http-request-pos=1
             --cleaning-access-pos=1 --app-type=1
+    Request Received, task id: 13f621cb-3dfa-4d96-9821-cd7d11fb15af
 
 
 #. antiddos close (关闭AntiDDos）
@@ -22,8 +24,11 @@ Command Samples
 
     # close antiddos with ip
     $ openstack antiddos close 160.44.196.90
+    Request Received, task id: 13f621cb-3dfa-4d96-9821-cd7d11fb15af
+
     # close antiddos with floating ip id
     $ openstack antiddos close 194bca90-9c23-43fb-b744-9d0bbd043a76
+    Request Received, task id: 13f621cb-3dfa-4d96-9821-cd7d11fb15af
 
 
 
@@ -60,6 +65,7 @@ Command Samples
     # update antiddos with ip
     $ openstack antiddos set 160.44.197.150 --disable-l7 --traffic-pos=2 --http-request-pos=2
         --cleaning-access-pos=2 --app-type=0
+    Request Received, task id: 13f621cb-3dfa-4d96-9821-cd7d11fb15af
 
 
 #. antiddos status list (查看AntiDDos状态列表）
@@ -105,3 +111,10 @@ Command Samples
     | 11427e0f-dc37-4319-a0e2-390e560fe116 | 160.44.197.150      | EIP          | normal |
     | 11ee0ec8-2b4f-438d-8235-dd22a3effa46 | 160.44.196.90       | EIP          | normal |
     +--------------------------------------+---------------------+--------------+--------+
+
+#. antiddos status show (查看AntiDDos防护状态）
+
+.. code:: console
+
+    $ openstack  antiddos status show -h
+    usage: openstack antiddos status

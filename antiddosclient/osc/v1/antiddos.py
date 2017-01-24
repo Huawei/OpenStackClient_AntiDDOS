@@ -129,7 +129,7 @@ class OpenAntiDDos(command.Command):
                                              args.cleaning_access_pos,
                                              args.app_type)
 
-        return 'Task Received, task id: ' + task['task_id']
+        return 'Request Received, task id: ' + task['task_id']
 
 
 class CloseAntiDDos(command.Command):
@@ -144,7 +144,7 @@ class CloseAntiDDos(command.Command):
         client = self.app.client_manager.antiddos
         floating_ip = client.antiddos.find(args.floating_ip)
         task = client.antiddos.close_antiddos(floating_ip.floating_ip_id)
-        return 'Task Received, task id: ' + task['task_id']
+        return 'Request Received, task id: ' + task['task_id']
 
 
 class ShowAntiDDos(command.ShowOne):
@@ -184,7 +184,7 @@ class SetAntiDDos(command.Command):
                                                args.http_request_pos,
                                                args.cleaning_access_pos,
                                                args.app_type)
-        return 'Task Received, task id: ' + task['task_id']
+        return 'Request Received, task id: ' + task['task_id']
 
 
 class ShowAntiDDosTask(command.ShowOne):
@@ -202,9 +202,8 @@ class ShowAntiDDosTask(command.ShowOne):
     def take_action(self, args):
         client = self.app.client_manager.antiddos
         task = client.antiddos.get_task_status(args.task_id)
-        # TODO(Woo)
-        transfer = zip(*sorted(six.iteritems(task)))
-        return transfer
+        columns = antiddos.AntiDDosTask.show_column_names
+        return columns, task.get_display_data(columns)
 
 
 class ListAntiDDosStatus(command.Lister):
@@ -247,7 +246,8 @@ class ShowAntiDDosStatus(command.ShowOne):
         manager = self.app.client_manager.antiddos.antiddos
         floating_ip = manager.find(args.floating_ip)
         antiddos_status = manager.get_antiddos_status(floating_ip.floating_ip_id)
-        return 'Status', antiddos_status.status
+        columns = antiddos.AntiDDosTask.show_column_names
+        return columns, antiddos_status.get_display_data(columns)
 
 
 class ListAntiDDosDailyReport(command.Lister):
