@@ -40,6 +40,8 @@ class SampleResource(resource.Resource):
 
 if __name__ == "__main__":
 
+    print utils.format_time(float(1485245386329/1000))
+
     r = SampleResource(None, dict(foo='bar', baz='spam'))
     print zip(*sorted(six.iteritems(dict(foo='bar', baz='spam'))))
 
