@@ -67,7 +67,7 @@ class AntiDDosManager(manager.Manager):
             cleaning_access_pos_id,
             app_type_id
     ):
-        """open AntiDDos"""
+        """Open AntiDDos"""
         data = {
             "enable_L7": "true" if enable_l7 else "false",
             "traffic_pos_id": traffic_pos_id,
@@ -75,7 +75,9 @@ class AntiDDosManager(manager.Manager):
             "cleaning_access_pos_id": cleaning_access_pos_id,
             "app_type_id": app_type_id
         }
-        return self._create("/antiddos/%s" % floating_ip_id, data=data)
+        return self._create("/antiddos/%s" % floating_ip_id,
+                            data=data,
+                            raw=True)
 
     def close_antiddos(self, floating_ip_id):
         """close AntiDDos"""
@@ -102,7 +104,8 @@ class AntiDDosManager(manager.Manager):
             "cleaning_access_pos_id": cleaning_access_pos_id,
             "app_type_id": app_type_id
         }
-        return self._update_all("/antiddos/%s" % floating_ip_id, data)
+        resource_url = "/antiddos/%s" % floating_ip_id
+        return self._update_all(resource_url, data, raw=True)
 
     def list(self, status=None, ip=None, limit=None, offset=None):
         """list antiddos status of all EIP

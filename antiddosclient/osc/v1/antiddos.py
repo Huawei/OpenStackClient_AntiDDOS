@@ -14,13 +14,13 @@
 #
 import logging
 
+import six
+from osc_lib.command import command
+
 from antiddosclient.common import parser as p
 from antiddosclient.common import utils
 from antiddosclient.common.i18n import _
 from antiddosclient.v1.resource import antiddos
-
-from osc_lib.command import command
-import six
 
 LOG = logging.getLogger(__name__)
 
@@ -38,14 +38,14 @@ class AntiDDosParser(object):
     def add_enable_l7_arg(parser):
         enable_group = parser.add_mutually_exclusive_group()
         enable_group.add_argument(
-            '--enable_l7',
+            '--enable-l7',
             action="store_true",
             dest='enable_l7',
             default=True,
             help=_("enable L7 protection (default)")
         )
         enable_group.add_argument(
-            '--disable_l7',
+            '--disable-l7',
             action="store_false",
             dest='enable_l7',
             help=_("disable L7 protection")
@@ -122,12 +122,14 @@ class OpenAntiDDos(command.Command):
     def take_action(self, args):
         client = self.app.client_manager.antiddos
         floating_ip = client.antiddos.find(args.floating_ip)
-        client.antiddos.open_antiddos(floating_ip.floating_ip_id,
-                                      args.enable_l7,
-                                      args.traffic_pos,
-                                      args.http_request_pos,
-                                      args.cleaning_access_pos,
-                                      args.app_type)
+        task = client.antiddos.open_antiddos(floating_ip.floating_ip_id,
+                                             args.enable_l7,
+                                             args.traffic_pos,
+                                             args.http_request_pos,
+                                             args.cleaning_access_pos,
+                                             args.app_type)
+
+        return ['Task Id'], [task['task_id']]
 
 
 class CloseAntiDDos(command.Command):
@@ -141,7 +143,8 @@ class CloseAntiDDos(command.Command):
     def take_action(self, args):
         client = self.app.client_manager.antiddos
         floating_ip = client.antiddos.find(args.floating_ip)
-        client.antiddos.close_antiddos(floating_ip.floating_ip_id)
+        task = client.antiddos.close_antiddos(floating_ip.floating_ip_id)
+        return ['Task Id'], [task['task_id']]
 
 
 class ShowAntiDDos(command.ShowOne):
@@ -175,12 +178,13 @@ class SetAntiDDos(command.Command):
     def take_action(self, args):
         client = self.app.client_manager.antiddos
         floating_ip = client.antiddos.find(args.floating_ip)
-        client.antiddos.update_antiddos(floating_ip.floating_ip_id,
-                                        args.enable_l7,
-                                        args.traffic_pos,
-                                        args.http_request_pos,
-                                        args.cleaning_access_pos,
-                                        args.app_type)
+        task = client.antiddos.update_antiddos(floating_ip.floating_ip_id,
+                                               args.enable_l7,
+                                               args.traffic_pos,
+                                               args.http_request_pos,
+                                               args.cleaning_access_pos,
+                                               args.app_type)
+        return ['Task Id'], [task['task_id']]
 
 
 class ShowAntiDDosTask(command.ShowOne):

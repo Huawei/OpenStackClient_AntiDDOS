@@ -8,11 +8,11 @@ Command Samples
 .. code:: console
 
     # open antiddos with IP
-    $ openstack antiddos open 160.44.196.90 --enable_l7 --traffic-pos=1 --http-request-pos=1
+    $ openstack antiddos open 160.44.196.90 --enable-l7 --traffic-pos=1 --http-request-pos=1
             --cleaning-access-pos=1 --app-type=1
 
     # open antiddos with floating ip id
-    $ openstack antiddos open 194bca90-9c23-43fb-b744-9d0bbd043a76 --enable_l7 --traffic-pos=1 --http-request-pos=1
+    $ openstack antiddos open 194bca90-9c23-43fb-b744-9d0bbd043a76 --enable-l7 --traffic-pos=1 --http-request-pos=1
             --cleaning-access-pos=1 --app-type=1
 
 
@@ -57,27 +57,10 @@ Command Samples
 
 .. code:: console
 
-    # show antiddos with ip
-    $ openstack antiddos show 160.44.197.150
-    +---------------------+--------------------------------------+
-    | Field               | Value                                |
-    +---------------------+--------------------------------------+
-    | Floating IP id      | 11427e0f-dc37-4319-a0e2-390e560fe116 |
-    | floating ip address | 160.44.197.150                       |
-    | network type        | EIP                                  |
-    | status              | normal                               |
-    +---------------------+--------------------------------------+
+    # update antiddos with ip
+    $ openstack antiddos set 160.44.197.150 --disable-l7 --traffic-pos=2 --http-request-pos=2
+        --cleaning-access-pos=2 --app-type=0
 
-    # show antiddos with floating ip id
-    $ openstack antiddos show 11427e0f-dc37-4319-a0e2-390e560fe116
-    +---------------------+--------------------------------------+
-    | Field               | Value                                |
-    +---------------------+--------------------------------------+
-    | Floating IP id      | 11427e0f-dc37-4319-a0e2-390e560fe116 |
-    | floating ip address | 160.44.197.150                       |
-    | network type        | EIP                                  |
-    | status              | normal                               |
-    +---------------------+--------------------------------------+
 
 #. antiddos status list (查看AntiDDos状态列表）
 
