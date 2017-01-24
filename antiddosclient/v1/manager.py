@@ -50,7 +50,7 @@ class AntiDDosManager(manager.Manager):
             elif matched_number == 1:
                 return results[0]
 
-        message = _("AntiDDos with ID or IP '%s' exists.") % keyword
+        message = _("AntiDDos with ID or IP '%s' not exists.") % keyword
         raise exceptions.NotFound(message)
 
     def query_config_list(self):

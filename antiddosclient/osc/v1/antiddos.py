@@ -129,7 +129,7 @@ class OpenAntiDDos(command.Command):
                                              args.cleaning_access_pos,
                                              args.app_type)
 
-        return ['Task Id'], [task['task_id']]
+        return 'Task Received, task id: ' + task['task_id']
 
 
 class CloseAntiDDos(command.Command):
@@ -144,7 +144,7 @@ class CloseAntiDDos(command.Command):
         client = self.app.client_manager.antiddos
         floating_ip = client.antiddos.find(args.floating_ip)
         task = client.antiddos.close_antiddos(floating_ip.floating_ip_id)
-        return ['Task Id'], [task['task_id']]
+        return 'Task Received, task id: ' + task['task_id']
 
 
 class ShowAntiDDos(command.ShowOne):
@@ -184,7 +184,7 @@ class SetAntiDDos(command.Command):
                                                args.http_request_pos,
                                                args.cleaning_access_pos,
                                                args.app_type)
-        return ['Task Id'], [task['task_id']]
+        return 'Task Received, task id: ' + task['task_id']
 
 
 class ShowAntiDDosTask(command.ShowOne):
