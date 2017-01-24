@@ -111,6 +111,14 @@ class AntiDDosDailyReport(resource.Resource, display.Display):
     def start_time(self):
         return utils.format_time(self.period_start/1000)
 
+    @property
+    def bps_total(self):
+        return self.total_bps
+
+    @property
+    def pps_total(self):
+        return self.total_pps
+
 
 class AntiDDosLog(resource.Resource, display.Display):
     """AntiDDos log for every five minutes."""

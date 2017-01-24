@@ -142,19 +142,32 @@ Command Samples
 .. code:: console
 
     $ openstack antiddos daily 160.44.197.150
-    +--------+--------+
-    | Field  | Value  |
-    +--------+--------+
-    | status | normal |
-    +--------+--------+
+    +---------------------+--------+------------+-----------+--------+------------+-----------+
+    | Start Time          | BPS In | BPS Attack | BPS Total | PPS In | PPS Attack | PPS Total |
+    +---------------------+--------+------------+-----------+--------+------------+-----------+
+    | 2017-01-23 17:18:33 |      0 |          0 |           |      0 |          0 |           |
+    | 2017-01-23 17:23:33 |      0 |          0 |           |      0 |          0 |           |
+    | 2017-01-23 17:28:33 |      0 |          0 |           |      0 |          0 |           |
+    | 2017-01-23 17:33:33 |      0 |          0 |           |      0 |          0 |           |
+    | 2017-01-23 17:38:33 |      0 |          0 |           |      0 |          0 |           |
+    | 2017-01-23 17:43:33 |      0 |          0 |           |      0 |          0 |           |
+    | 2017-01-23 17:48:33 |      0 |          0 |           |      0 |          0 |           |
+    | 2017-01-23 17:53:33 |      0 |          0 |           |      0 |          0 |           |
+    | 2017-01-23 17:58:33 |      0 |          0 |           |      0 |          0 |           |
+    | 2017-01-23 18:03:33 |      0 |          0 |           |      0 |          0 |           |
+    ......
 
-#. antiddos logs (查看AntiDDos防护状态）
+#. antiddos logs (查看AntiDDos异常事件）
 
 .. code:: console
 
-    $ openstack antiddos status show 160.44.197.150
-    +--------+--------+
-    | Field  | Value  |
-    +--------+--------+
-    | status | normal |
-    +--------+--------+
+    # Could not get data in Current Env, will test later
+    $ openstack antiddos logs 160.44.197.150 --limit=10
+
+
+#. antiddos weekly (查看AntiDDos周防护统计情况）
+
+.. code:: console
+
+    # Could not get data in Current Env, will test later
+    $ openstack antiddos weekly --limit=10

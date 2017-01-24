@@ -277,17 +277,19 @@ class ListAntiDDosLogs(command.Lister):
         return parser
 
     def take_action(self, args):
+        # TODO(Woo) no data in test env, need to test later
         manager = self.app.client_manager.antiddos.antiddos
         floating_ip = manager.find(args.floating_ip)
-        reports = manager.get_antiddos_daily_report(floating_ip.floating_ip_id)
+        logs = manager.get_antiddos_daily_logs(floating_ip.floating_ip_id)
         columns = antiddos.AntiDDosLog.list_column_names
-        return columns, (r.get_display_data(columns) for r in reports)
+        return columns, (r.get_display_data(columns) for r in logs)
 
 
 class ListAntiDDosWeeklyReport(command.Lister):
     _description = _("List AntiDDos weekly report")
 
     def get_parser(self, prog_name):
+        # TODO (woo)
         parser = super(ListAntiDDosWeeklyReport, self).get_parser(prog_name)
         parser.add_argument(
             '--start-date',
@@ -300,6 +302,6 @@ class ListAntiDDosWeeklyReport(command.Lister):
     def take_action(self, args):
         manager = self.app.client_manager.antiddos.antiddos
         floating_ip = manager.find(args.floating_ip)
-        reports = manager.get_antiddos_daily_report(floating_ip.floating_ip_id)
-        columns = antiddos.AntiDDosDailyReport.list_column_names
+        reports = manager.get_antiddos_weekly_report(floating_ip.floating_ip_id)
+        columns = antiddos.AntiDDosWeeklyReport.list_column_names
         return columns, (r.get_display_data(columns) for r in reports)
