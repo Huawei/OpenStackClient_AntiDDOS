@@ -70,7 +70,7 @@ follow all the usage **openstack** provided.
 
 .. code:: console
 
-    $ openstack antiddos list --help
+    $ openstack antiddos status list --help
     usage: openstack antiddos status list [-h] [-f {csv,json,table,value,yaml}]
                                           [-c COLUMN] [--max-width <integer>]
                                           [--print-empty] [--noindent]
@@ -150,7 +150,7 @@ Here's an example of listing antiddos status using Python library with keystone 
     >>> session = session.Session(auth=auth)
 
     >>> # Now we use the session to create a AntiDDos client
-    >>> antiddos = client.Client(session=session)
+    >>> antiddos_client = client.Client(session=session)
 
     >>> # Then we can access all antiddos API
     >>> # Let's try list antiddos status API
