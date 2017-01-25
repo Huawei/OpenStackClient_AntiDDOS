@@ -17,7 +17,6 @@ Command Samples
             --cleaning-access-pos=1 --app-type=1 --os-antiddos-endpoint-override=https://antiddos.eu-de.otc.t-systems.com
     Request Received, task id: 13f621cb-3dfa-4d96-9821-cd7d11fb15af
 
-
 #. antiddos close (关闭AntiDDos）
 
 .. code:: console
@@ -29,8 +28,6 @@ Command Samples
     # close antiddos with floating ip id
     $ openstack antiddos close 194bca90-9c23-43fb-b744-9d0bbd043a76 --os-antiddos-endpoint-override=https://antiddos.eu-de.otc.t-systems.com
     Request Received, task id: 13f621cb-3dfa-4d96-9821-cd7d11fb15af
-
-
 
 #. antiddos show (查看AntiDDos）
 
