@@ -48,6 +48,7 @@ class BaseParser(object):
     def add_limit_option(parser):
         parser.add_argument(
             "--limit",
+            metavar="<count>",
             type=int,
             help=_("return result limit")
         )
@@ -56,6 +57,7 @@ class BaseParser(object):
     def add_offset_option(parser):
         parser.add_argument(
             "--offset",
+            metavar="<count>",
             type=int,
             help=_("return result offset")
         )
@@ -64,7 +66,8 @@ class BaseParser(object):
     def add_sortdir_option(parser):
         parser.add_argument(
             "--sort-dir",
+            metavar="<sort>",
             choices=['desc', 'asc'],
             default='desc',
-            help=_("Sort desc|asc")
+            help=_("Sort by desc or asc")
         )

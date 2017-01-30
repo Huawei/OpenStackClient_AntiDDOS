@@ -38,9 +38,15 @@ class TestUtils(base.BaseTestCase):
         self.assertEqual(("1", "2", "3"), tuple(str_range))
 
     def test_time_format(self):
+        # Unix timestamp mapped to yyyy-MM-dd HH:mm:ss
         dt = datetime(2017, 1, 22, hour=18, minute=25, second=10)
         longtime = time.mktime(dt.timetuple())
         formatted = utils.format_time(longtime)
         self.assertEqual(formatted, '2017-01-22 18:25:10')
+
+        formatted = utils.format_time(longtime * 1000)
+        self.assertEqual(formatted, '2017-01-22 18:25:10')
+
+        # None mapped to ''
         formatted = utils.format_time(None)
         self.assertEqual(formatted, '')
