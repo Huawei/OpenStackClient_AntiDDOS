@@ -38,17 +38,16 @@ def remove_empty_from_dict(original):
 
 
 def str_range(start, end):
-    """get range with string type
-
-    :param n:
-    :return:
-    """
+    """get range with string type"""
     return (str(i) for i in range(start, end))
 
 
-def format_time(time_in_long, strformat='%Y-%m-%d %H:%M:%S'):
+def format_time(time_in_long, _format='%Y-%m-%d %H:%M:%S'):
     if time_in_long:
+        # if time-long is with mill seconds
+        if time_in_long > pow(10, 12):
+            time_in_long /= 1000
         timestamp = datetime.fromtimestamp(time_in_long)
-        return timestamp.strftime(strformat)
+        return timestamp.strftime(_format)
     else:
         return ''

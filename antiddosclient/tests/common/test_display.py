@@ -23,7 +23,11 @@ class DisplayResource(resource.Resource, display.Display):
 
     @property
     def computed(self):
-        return self.column_a + self.columnb
+        return self.column_a + self.column_b
+
+    column_2_property = {
+        "Columnb" : "column_b"
+    }
 
 
 class OverrideResource(resource.Resource, display.Display):
@@ -35,7 +39,7 @@ class OverrideResource(resource.Resource, display.Display):
 class TestDisplay(base.BaseTestCase):
     instance = {
         'column_a': 'A1',
-        'columnb': 'B1',
+        'column_b': 'B1',
         'column_array': [1, 2, 3],
         'column_dict': {
             'key1': 'value1',
@@ -52,10 +56,10 @@ class TestDisplay(base.BaseTestCase):
                         'computed')
         data = r.get_display_data(column_names)
         self.assertEqual(data, (instance['column_a'],
-                                instance['columnb'],
+                                instance['column_b'],
                                 instance['column_array'],
                                 instance['column_dict'],
-                                (instance['column_a']+instance['columnb'])))
+                                (instance['column_a']+instance['column_b'])))
 
         column_names = ('column_array', 'Column Dict', 'Column A', 'Columnb',
                         'computed')
@@ -63,8 +67,8 @@ class TestDisplay(base.BaseTestCase):
         self.assertEqual(data, (instance['column_array'],
                                 instance['column_dict'],
                                 instance['column_a'],
-                                instance['columnb'],
-                                (instance['column_a'] + instance['columnb'])))
+                                instance['column_b'],
+                                (instance['column_a'] + instance['column_b'])))
 
         column_names = ('column_array', 'Column Dict', 'Column A',)
         data = r.get_display_data(column_names)

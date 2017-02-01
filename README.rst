@@ -18,7 +18,7 @@ Currently, We can install the plugin from source code
 
 
 Command Line Client Usage
------------------------------------------
+-------------------------
 
 .. note::
 
@@ -126,7 +126,7 @@ follow all the usage **openstack** provided.
 
 
 Python Library Usage
--------------------------------
+--------------------
 
 The full api is documented in the `AntiDDos Offical Document`_ site
 

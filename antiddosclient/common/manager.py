@@ -38,15 +38,21 @@ class Manager(object):
         """
         self.http_client = http_client
 
+    def get_data(self, data, path=None):
+        if data and path and path != '':
+            nested = path.split('.')
+            return self.get_data(data[nested[0]], '.'.join(nested[1:]))
+        return data
+
     def _list(self, url, params={}, resource_class=None, key=None, headers={}):
-        """
+        """ common list resource function
 
         :rtype: Resource
         """
         resp, body = self.http_client.get(url, params=params, headers=headers)
         resource_class = resource_class if resource_class else self.resource_class
         # get required body part
-        data = body[key] if key else body
+        data = self.get_data(body, key)
         data = data if data else []
         if all([isinstance(_resource, six.string_types)
                 for _resource in data]):
@@ -66,7 +72,7 @@ class Manager(object):
         # PATCH requests may not return a body
         if body:
             # get required body part
-            content = body[key] if key else body
+            content = self.get_data(body, key)
             if raw:
                 return self.mixin_meta(content, resp)
             else:
@@ -80,7 +86,7 @@ class Manager(object):
         # PATCH requests may not return a body
         if body:
             # get required body part
-            content = body[key] if key else body
+            content = self.get_data(body, key)
             if raw:
                 return self.mixin_meta(content, resp)
             else:
@@ -95,7 +101,7 @@ class Manager(object):
             resp, body = self.http_client.post(url, headers=headers)
 
         # get required body part
-        content = body[key] if key else body
+        content = self.get_data(body, key)
         if raw or not body:
             return self.mixin_meta(content, resp)
         else:
@@ -106,7 +112,7 @@ class Manager(object):
         resp, body = self.http_client.get(url, params=params, headers=headers)
         # get required body part
         if body:
-            content = body[key] if key else body
+            content = self.get_data(body, key)
             if raw:
                 return self.mixin_meta(content, resp)
             else:
