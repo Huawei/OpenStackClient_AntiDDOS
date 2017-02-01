@@ -19,7 +19,7 @@ from antiddosclient.common import utils
 
 
 class AntiDDos(resource.Resource, display.Display):
-    """AntiDDos resource instance."""
+    """AntiDDos resource _antiddos."""
 
     status_list = [
         "normal",
@@ -50,7 +50,7 @@ class AntiDDos(resource.Resource, display.Display):
 
 
 class AntiDDosTask(resource.Resource, display.Display):
-    """AntiDDos task resource instance."""
+    """AntiDDos task resource _antiddos."""
 
     show_column_names = (
         'Task Status',
@@ -68,7 +68,7 @@ class AntiDDosTask(resource.Resource, display.Display):
 
 
 class AntiDDosStatus(resource.Resource, display.Display):
-    """AntiDDos task resource instance."""
+    """AntiDDos task resource _antiddos."""
 
     show_column_names = (
         'Status',
@@ -76,7 +76,7 @@ class AntiDDosStatus(resource.Resource, display.Display):
 
 
 class AntiDDosConfig(resource.Resource, display.Display):
-    """AntiDDos configuration resource instance."""
+    """AntiDDos configuration resource _antiddos."""
 
     status_list = [
         "normal",

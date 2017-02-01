@@ -15,81 +15,13 @@
 import logging
 
 import six
+from antiddosclient.common import parser as p
+from antiddosclient.common.i18n import _
+from antiddosclient.osc.v1 import parser_builder as pb
+from antiddosclient.v1 import resource
 from osc_lib.command import command
 
-from antiddosclient.common import parser as p
-from antiddosclient.common import utils
-from antiddosclient.common.i18n import _
-from antiddosclient.v1.resource import antiddos
-
 LOG = logging.getLogger(__name__)
-
-
-class AntiDDosParser(object):
-    @staticmethod
-    def add_floating_ip_arg(parser):
-        parser.add_argument(
-            'floating_ip',
-            metavar='<floating ip>',
-            help=_("For floating ip (UUID or IP)")
-        )
-
-    @staticmethod
-    def add_enable_l7_arg(parser):
-        enable_group = parser.add_mutually_exclusive_group()
-        enable_group.add_argument(
-            '--enable-l7',
-            action="store_true",
-            dest='enable_l7',
-            default=True,
-            help=_("enable L7 protection (default)")
-        )
-        enable_group.add_argument(
-            '--disable-l7',
-            action="store_false",
-            dest='enable_l7',
-            help=_("disable L7 protection")
-        )
-
-    @staticmethod
-    def add_traffic_pos_arg(parser):
-        parser.add_argument(
-            '--traffic-pos',
-            metavar='<traffic-pos>',
-            required=True,
-            choices=utils.str_range(1, 10),
-            help=_("traffic pos, integer between 1-9")
-        )
-
-    @staticmethod
-    def add_http_request_pos_arg(parser):
-        parser.add_argument(
-            '--http-request-pos',
-            metavar='<http-request-pos>',
-            required=True,
-            choices=utils.str_range(1, 16),
-            help=_("http request pos, integer between 1-15")
-        )
-
-    @staticmethod
-    def add_cleaning_acess_pos_arg(parser):
-        parser.add_argument(
-            '--cleaning-access-pos',
-            metavar='<cleaning-access-pos>',
-            required=True,
-            choices=utils.str_range(1, 9),
-            help=_("cleaning access pos, integer between 1-8")
-        )
-
-    @staticmethod
-    def add_app_type_arg(parser):
-        parser.add_argument(
-            '--app-type',
-            metavar='<app-type>',
-            required=True,
-            choices=('0', '1'),
-            help=_("app type, 0 or 1")
-        )
 
 
 class QueryAntiDDosConfig(command.Lister):
@@ -102,7 +34,7 @@ class QueryAntiDDosConfig(command.Lister):
     def take_action(self, args):
         client = self.app.client_manager.antiddos
         data = client.antiddos.query_config_list()
-        columns = antiddos.AntiDDos.list_column_names
+        columns = resource.AntiDDos.list_column_names
         return columns, (r.get_display_data(columns) for r in data)
 
 
@@ -111,12 +43,12 @@ class OpenAntiDDos(command.Command):
 
     def get_parser(self, prog_name):
         parser = super(OpenAntiDDos, self).get_parser(prog_name)
-        AntiDDosParser.add_floating_ip_arg(parser)
-        AntiDDosParser.add_enable_l7_arg(parser)
-        AntiDDosParser.add_traffic_pos_arg(parser)
-        AntiDDosParser.add_http_request_pos_arg(parser)
-        AntiDDosParser.add_cleaning_acess_pos_arg(parser)
-        AntiDDosParser.add_app_type_arg(parser)
+        pb.AntiDDosParser.add_floating_ip_arg(parser)
+        pb.AntiDDosParser.add_enable_l7_arg(parser)
+        pb.AntiDDosParser.add_traffic_pos_arg(parser)
+        pb.AntiDDosParser.add_http_request_pos_arg(parser)
+        pb.AntiDDosParser.add_cleaning_access_pos_arg(parser)
+        pb.AntiDDosParser.add_app_type_arg(parser)
         return parser
 
     def take_action(self, args):
@@ -137,7 +69,7 @@ class CloseAntiDDos(command.Command):
 
     def get_parser(self, prog_name):
         parser = super(CloseAntiDDos, self).get_parser(prog_name)
-        AntiDDosParser.add_floating_ip_arg(parser)
+        pb.AntiDDosParser.add_floating_ip_arg(parser)
         return parser
 
     def take_action(self, args):
@@ -152,13 +84,13 @@ class ShowAntiDDos(command.ShowOne):
 
     def get_parser(self, prog_name):
         parser = super(ShowAntiDDos, self).get_parser(prog_name)
-        AntiDDosParser.add_floating_ip_arg(parser)
+        pb.AntiDDosParser.add_floating_ip_arg(parser)
         return parser
 
     def take_action(self, args):
         client = self.app.client_manager.antiddos
         _antiddos = client.antiddos.find(args.floating_ip)
-        columns = antiddos.AntiDDos.list_column_names
+        columns = resource.AntiDDos.list_column_names
         return columns, _antiddos.get_display_data(columns)
 
 
@@ -167,12 +99,12 @@ class SetAntiDDos(command.Command):
 
     def get_parser(self, prog_name):
         parser = super(SetAntiDDos, self).get_parser(prog_name)
-        AntiDDosParser.add_floating_ip_arg(parser)
-        AntiDDosParser.add_enable_l7_arg(parser)
-        AntiDDosParser.add_traffic_pos_arg(parser)
-        AntiDDosParser.add_http_request_pos_arg(parser)
-        AntiDDosParser.add_cleaning_acess_pos_arg(parser)
-        AntiDDosParser.add_app_type_arg(parser)
+        pb.AntiDDosParser.add_floating_ip_arg(parser)
+        pb.AntiDDosParser.add_enable_l7_arg(parser)
+        pb.AntiDDosParser.add_traffic_pos_arg(parser)
+        pb.AntiDDosParser.add_http_request_pos_arg(parser)
+        pb.AntiDDosParser.add_cleaning_access_pos_arg(parser)
+        pb.AntiDDosParser.add_app_type_arg(parser)
         return parser
 
     def take_action(self, args):
@@ -202,7 +134,7 @@ class ShowAntiDDosTask(command.ShowOne):
     def take_action(self, args):
         client = self.app.client_manager.antiddos
         task = client.antiddos.get_task_status(args.task_id)
-        columns = antiddos.AntiDDosTask.show_column_names
+        columns = resource.AntiDDosTask.show_column_names
         return columns, task.get_display_data(columns)
 
 
@@ -213,7 +145,7 @@ class ListAntiDDosStatus(command.Lister):
         parser = super(ListAntiDDosStatus, self).get_parser(prog_name)
         parser.add_argument(
             "--status",
-            choices=antiddos.AntiDDos.status_list,
+            choices=resource.AntiDDos.status_list,
             help=_("list AntiDDos with status")
         )
         parser.add_argument(
@@ -230,7 +162,7 @@ class ListAntiDDosStatus(command.Lister):
                                     ip=args.ip,
                                     limit=args.limit,
                                     offset=args.offset)
-        columns = antiddos.AntiDDos.list_column_names
+        columns = resource.AntiDDos.list_column_names
         return columns, (r.get_display_data(columns) for r in data)
 
 
@@ -239,7 +171,7 @@ class ShowAntiDDosStatus(command.ShowOne):
 
     def get_parser(self, prog_name):
         parser = super(ShowAntiDDosStatus, self).get_parser(prog_name)
-        AntiDDosParser.add_floating_ip_arg(parser)
+        pb.AntiDDosParser.add_floating_ip_arg(parser)
         return parser
 
     def take_action(self, args):
@@ -254,14 +186,14 @@ class ListAntiDDosDailyReport(command.Lister):
 
     def get_parser(self, prog_name):
         parser = super(ListAntiDDosDailyReport, self).get_parser(prog_name)
-        AntiDDosParser.add_floating_ip_arg(parser)
+        pb.AntiDDosParser.add_floating_ip_arg(parser)
         return parser
 
     def take_action(self, args):
         manager = self.app.client_manager.antiddos.antiddos
         floating_ip = manager.find(args.floating_ip)
         reports = manager.get_antiddos_daily_report(floating_ip.floating_ip_id)
-        columns = antiddos.AntiDDosDailyReport.list_column_names
+        columns = resource.AntiDDosDailyReport.list_column_names
         return columns, (r.get_display_data(columns) for r in reports)
 
 
@@ -270,7 +202,7 @@ class ListAntiDDosLogs(command.Lister):
 
     def get_parser(self, prog_name):
         parser = super(ListAntiDDosLogs, self).get_parser(prog_name)
-        AntiDDosParser.add_floating_ip_arg(parser)
+        pb.AntiDDosParser.add_floating_ip_arg(parser)
         p.BaseParser.add_limit_option(parser)
         p.BaseParser.add_offset_option(parser)
         p.BaseParser.add_sortdir_option(parser)
@@ -281,7 +213,7 @@ class ListAntiDDosLogs(command.Lister):
         manager = self.app.client_manager.antiddos.antiddos
         floating_ip = manager.find(args.floating_ip)
         logs = manager.get_antiddos_daily_logs(floating_ip.floating_ip_id)
-        columns = antiddos.AntiDDosLog.list_column_names
+        columns = resource.AntiDDosLog.list_column_names
         return columns, (r.get_display_data(columns) for r in logs)
 
 
@@ -303,5 +235,5 @@ class ListAntiDDosWeeklyReport(command.Lister):
         manager = self.app.client_manager.antiddos.antiddos
         floating_ip = manager.find(args.floating_ip)
         reports = manager.get_antiddos_weekly_report(floating_ip.floating_ip_id)
-        columns = antiddos.AntiDDosWeeklyReport.list_column_names
+        columns = resource.AntiDDosWeeklyReport.list_column_names
         return columns, (r.get_display_data(columns) for r in reports)

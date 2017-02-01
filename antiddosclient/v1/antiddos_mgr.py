@@ -19,15 +19,14 @@ from antiddosclient.common import exceptions as execs
 from antiddosclient.common import manager
 from antiddosclient.common import utils
 from antiddosclient.common.i18n import _
-from antiddosclient.v1.resource import antiddos
-
+from antiddosclient.v1 import resource
 from keystoneauth1 import exceptions
 
 IP_PATTERN = re.compile(r'(\d{0,3}\.){1,3}(\d{0,3})$')
 
 
 class AntiDDosManager(manager.Manager):
-    resource_class = antiddos.AntiDDos
+    resource_class = resource.AntiDDos
 
     def find(self, keyword):
         """find antiddos by keyword (UUID or IP)"""
@@ -56,7 +55,7 @@ class AntiDDosManager(manager.Manager):
     def query_config_list(self):
         """query antiddos config list"""
         return self._get("/antiddos/query_config_list",
-                         resource_class=antiddos.AntiDDosConfig)
+                         resource_class=resource.AntiDDosConfig)
 
     def open_antiddos(
             self,
@@ -69,7 +68,7 @@ class AntiDDosManager(manager.Manager):
     ):
         """Open AntiDDos"""
         data = {
-            "enable_L7": "true" if enable_l7 else "false",
+            "enable_L7": enable_l7,
             "traffic_pos_id": traffic_pos_id,
             "http_request_pos_id": http_request_pos_id,
             "cleaning_access_pos_id": cleaning_access_pos_id,
@@ -86,7 +85,7 @@ class AntiDDosManager(manager.Manager):
     def get_antiddos(self, floating_ip_id):
         """get anti DDos"""
         _antiddos = self._get("/antiddos/%s" % floating_ip_id)
-        if isinstance(_antiddos, antiddos.AntiDDos):
+        if isinstance(_antiddos, resource.AntiDDos):
             # server does not return floating ip id in response..
             _antiddos.floating_ip_id = floating_ip_id
         return _antiddos
@@ -133,7 +132,7 @@ class AntiDDosManager(manager.Manager):
         url = "/query_task_status"
         return self._get(url,
                          params=dict(task_id=task_id),
-                         resource_class=antiddos.AntiDDosTask)
+                         resource_class=resource.AntiDDosTask)
 
     def get_antiddos_status(self, floating_ip_id):
         """get anti-ddos status of EIP"""
@@ -145,7 +144,7 @@ class AntiDDosManager(manager.Manager):
         url = "/antiddos/%s/daily" % floating_ip_id
         return self._list(url,
                           key="data",
-                          resource_class=antiddos.AntiDDosDailyReport)
+                          resource_class=resource.AntiDDosDailyReport)
 
     def get_antiddos_daily_logs(self, floating_ip_id, sort_dir=None,
                                 limit=None, offset=None):
@@ -159,7 +158,7 @@ class AntiDDosManager(manager.Manager):
         return self._list(url,
                           key="logs",
                           params=params,
-                          resource_class=antiddos.AntiDDosLog)
+                          resource_class=resource.AntiDDosLog)
 
     def get_antiddos_weekly_report(self, period_start_date):
         """get weekly anti-ddos report for all EIP
@@ -169,4 +168,4 @@ class AntiDDosManager(manager.Manager):
         """
         url = "/antiddos/weekly"
         # TODO(Woo) confirm return data type
-        return self._get(url, resource_class=antiddos.AntiDDosWeeklyReport)
+        return self._get(url, resource_class=resource.AntiDDosWeeklyReport)

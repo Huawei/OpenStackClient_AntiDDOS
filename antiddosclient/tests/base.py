@@ -13,6 +13,9 @@
 #   License for the specific language governing permissions and limitations
 #   under the License.
 #
+from antiddosclient.tests import fakes
+from antiddosclient.v1 import antiddos_mgr
+from mock import mock
 from osc_lib.tests import utils
 
 
@@ -20,3 +23,17 @@ class BaseTestCase(utils.TestCommand):
     """Base Test case class for all unit tests."""
     pass
 
+
+class AntiDDosV1BaseTestCase(BaseTestCase):
+    """Base test case class for AntiDDos V1 management API."""
+
+    def __init__(self, *args, **kwargs):
+        super(AntiDDosV1BaseTestCase, self).__init__(*args, **kwargs)
+        self.cmd = None
+        self._antiddos = None
+        self.mocked_find = None
+
+    def setUp(self):
+        super(AntiDDosV1BaseTestCase, self).setUp()
+        fake_antiddos_client = fakes.FakeAntiDDosV1Client()
+        self.app.client_manager.antiddos = fake_antiddos_client
