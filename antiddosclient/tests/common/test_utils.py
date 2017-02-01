@@ -44,6 +44,7 @@ class TestUtils(base.BaseTestCase):
         formatted = utils.format_time(longtime)
         self.assertEqual(formatted, '2017-01-22 18:25:10')
 
+        # if time-long is Unix millisecond timestamp
         formatted = utils.format_time(longtime * 1000)
         self.assertEqual(formatted, '2017-01-22 18:25:10')
 
