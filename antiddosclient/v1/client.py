@@ -16,7 +16,7 @@
 import logging
 
 from antiddosclient.common import httpclient
-from antiddosclient.v1 import manager
+from antiddosclient.v1 import antiddos_mgr
 
 LOGGER = logging.getLogger(__name__)
 
@@ -53,4 +53,4 @@ class Client(object):
         self.client = httpclient.OpenStackHttpClient(session, endpoint, **kwargs)
 
         # initial anti-ddos modules
-        self.antiddos = manager.AntiDDosManager(self.client)
+        self.antiddos = antiddos_mgr.AntiDDosManager(self.client)

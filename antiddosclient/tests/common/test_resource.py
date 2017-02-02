@@ -14,10 +14,11 @@
 #   under the License.
 #
 import six
+from mock import mock
+
 from antiddosclient.common import resource
 from antiddosclient.tests import base
 from antiddosclient.tests import fakes
-from mock import mock
 
 
 class SampleResource(resource.Resource):
