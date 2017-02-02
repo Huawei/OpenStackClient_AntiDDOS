@@ -19,7 +19,7 @@ from antiddosclient.common import utils
 
 
 class AntiDDos(resource.Resource, display.Display):
-    """AntiDDos resource instance."""
+    """AntiDDos resource _antiddos."""
 
     status_list = [
         "normal",
@@ -50,7 +50,7 @@ class AntiDDos(resource.Resource, display.Display):
 
 
 class AntiDDosTask(resource.Resource, display.Display):
-    """AntiDDos task resource instance."""
+    """AntiDDos task resource _antiddos."""
 
     show_column_names = (
         'Task Status',
@@ -68,7 +68,7 @@ class AntiDDosTask(resource.Resource, display.Display):
 
 
 class AntiDDosStatus(resource.Resource, display.Display):
-    """AntiDDos task resource instance."""
+    """AntiDDos task resource _antiddos."""
 
     show_column_names = (
         'Status',
@@ -76,7 +76,7 @@ class AntiDDosStatus(resource.Resource, display.Display):
 
 
 class AntiDDosConfig(resource.Resource, display.Display):
-    """AntiDDos configuration resource instance."""
+    """AntiDDos configuration resource _antiddos."""
 
     status_list = [
         "normal",
@@ -109,7 +109,7 @@ class AntiDDosDailyReport(resource.Resource, display.Display):
 
     @property
     def start_time(self):
-        return utils.format_time(self.period_start/1000)
+        return utils.format_time(self.period_start / 1000)
 
     @property
     def bps_total(self):
@@ -124,21 +124,18 @@ class AntiDDosLog(resource.Resource, display.Display):
     """AntiDDos log for every five minutes."""
 
     list_column_names = (
-        'Log Start Time',
-        "Log End Time",
+        "Start Time",
+        "End Time",
         "AntiDDos Status",
         "Trigger BPS",
         "Trigger PPS",
         "Trigger HTTP PPS",
     )
 
-    @property
-    def log_start_time(self):
-        return utils.format_time(self.start_time/1000)
-
-    @property
-    def log_end_time(self):
-        return utils.format_time(self.end_time/1000)
+    formatter = {
+        "Start Time": utils.format_time,
+        "End Time": utils.format_time,
+    }
 
     @property
     def antiddos_status(self):

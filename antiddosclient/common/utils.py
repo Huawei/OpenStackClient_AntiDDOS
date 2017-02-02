@@ -39,7 +39,7 @@ def remove_empty_from_dict(original):
 
 def str_range(start, end):
     """get range with string type"""
-    return (str(i) for i in range(start, end))
+    return [str(i) for i in range(start, end)]
 
 
 def format_time(time_in_long, _format='%Y-%m-%d %H:%M:%S'):

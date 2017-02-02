@@ -44,18 +44,18 @@ class RequestIdMixin(object):
 
 
 class Resource(RequestIdMixin):
-    """Represents an instance of open-stack Resource object
+    """Represents an _antiddos of open-stack Resource object
 
-    Resource represents a particular instance of a target resource.
+    Resource represents a particular _antiddos of a target resource.
     This is pretty much just a bag for attributes.
 
     :param manager: ResourceManager object
-    :param instance: dictionary representing resource instance
+    :param instance: dictionary representing resource _antiddos
     :param attached: prevent lazy-loading if set to True
     :param resp: Response or list of Response objects
     """
 
-    # original dict type instance
+    # original dict type _antiddos
 
     def __init__(self, manager, instance, attached=False, resp=None):
         """initial resource
