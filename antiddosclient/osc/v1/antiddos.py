@@ -14,12 +14,12 @@
 #
 import logging
 
-import six
+from osc_lib.command import command
+
 from antiddosclient.common import parser as p
 from antiddosclient.common.i18n import _
 from antiddosclient.osc.v1 import parser_builder as pb
 from antiddosclient.v1 import resource
-from osc_lib.command import command
 
 LOG = logging.getLogger(__name__)
 
@@ -177,8 +177,9 @@ class ShowAntiDDosStatus(command.ShowOne):
     def take_action(self, args):
         manager = self.app.client_manager.antiddos.antiddos
         floating_ip = manager.find(args.floating_ip)
-        antiddos_status = manager.get_antiddos_status(floating_ip.floating_ip_id)
-        return zip(*sorted(six.iteritems(antiddos_status)))
+        status = manager.get_antiddos_status(floating_ip.floating_ip_id)
+        columns = resource.AntiDDosStatus.show_column_names
+        return columns, status.get_display_data(columns)
 
 
 class ListAntiDDosDailyReport(command.Lister):
@@ -212,9 +213,13 @@ class ListAntiDDosLogs(command.Lister):
         # TODO(Woo) no data in test env, need to test later
         manager = self.app.client_manager.antiddos.antiddos
         floating_ip = manager.find(args.floating_ip)
-        logs = manager.get_antiddos_daily_logs(floating_ip.floating_ip_id)
+        logs = manager.get_antiddos_daily_logs(
+            floating_ip.floating_ip_id, args.sort_dir, args.limit, args.offset
+        )
         columns = resource.AntiDDosLog.list_column_names
-        return columns, (r.get_display_data(columns) for r in logs)
+        data = (r.get_display_data(columns, formatter=r.formatter)
+                for r in logs)
+        return columns, data
 
 
 class ListAntiDDosWeeklyReport(command.Lister):

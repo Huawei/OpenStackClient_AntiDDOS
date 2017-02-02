@@ -14,16 +14,15 @@
 #
 import random
 import uuid
+
 import mock
-
-from keystoneauth1 import exceptions as execs
-
+from antiddosclient.common import exceptions
 from antiddosclient.common import resource as base_resource
 from antiddosclient.osc.v1 import antiddos
 from antiddosclient.tests import base
 from antiddosclient.v1 import antiddos_mgr
 from antiddosclient.v1 import resource
-from antiddosclient.common import exceptions
+from keystoneauth1 import exceptions as execs
 
 
 class TestAntiDDos(base.AntiDDosV1BaseTestCase):
@@ -59,6 +58,27 @@ class TestAntiDDos(base.AntiDDosV1BaseTestCase):
             "floating_ip_address": "192.168.47.192",
             "network_type": "EIP",
             "status": "notConfig"
+        }
+    ]
+
+    daily_report = [
+        {
+            "period_start": 1472713370609,
+            "bps_in": 0,
+            "bps_attack": 0,
+            "total_bps": 0,
+            "pps_in": 0,
+            "pps_attack": 0,
+            "total_pps": 0
+        },
+        {
+            "period_start": 1472713670609,
+            "bps_in": 0,
+            "bps_attack": 0,
+            "total_bps": 0,
+            "pps_in": 0,
+            "pps_attack": 0,
+            "total_pps": 0
         }
     ]
 
@@ -335,4 +355,166 @@ class TestAntiDDosTaskShow(TestAntiDDos):
                                        params={'task_id': 'fake_task_id'},
                                        resource_class=resource.AntiDDosTask)
         self.assertEqual(columns, resource.AntiDDosTask.list_column_names)
-        self.assertEqual(data, task.get_display_data(columns))
+        self.assertEqual(data, ("running", ""))
+
+
+@mock.patch.object(antiddos_mgr.AntiDDosManager, "_list")
+class TestAntiDDosStatusList(TestAntiDDos):
+    def setUp(self):
+        super(TestAntiDDosStatusList, self).setUp()
+        self.cmd = antiddos.ListAntiDDosStatus(self.app, None)
+
+    def test_list_antiddos_status_with_all_options(self, mocked_list):
+        args = [
+            "--ip", "192.168.42.221",
+            "--status", "notConfig",
+            "--limit", "10",
+            "--offset", "10"
+        ]
+        verify_args = (
+            ("ip", "192.168.42.221"),
+            ("status", "notConfig"),
+            ("limit", 10),
+            ("offset", 10),
+        )
+        parsed_args = self.check_parser(self.cmd, args, verify_args)
+        status_list = self.get_fake_antiddos_list()
+        mocked_list.return_value = status_list
+        columns, data = self.cmd.take_action(parsed_args)
+
+        t = zip(*verify_args)
+        mocked_list.assert_called_once_with(
+            "/antiddos", params=dict(zip(t[0], t[1])), key='ddosStatus'
+        )
+        self.assertEqual(columns, resource.AntiDDos.list_column_names)
+
+        expect_data = []
+        for instance in self.instances:
+            expect_data.append((instance["floating_ip_id"],
+                                instance["floating_ip_address"],
+                                instance["network_type"],
+                                instance["status"]))
+        self.assertEqual(list(data), expect_data)
+
+
+@mock.patch.object(antiddos_mgr.AntiDDosManager, "_get")
+class TestAntiDDosStatusShow(TestAntiDDos):
+    def setUp(self):
+        super(TestAntiDDosStatusShow, self).setUp()
+        self.cmd = antiddos.ShowAntiDDosStatus(self.app, None)
+
+    def test_antiddos_show_with_id(self, mocked_get):
+        floating_ip_id = self._antiddos.floating_ip_id
+        verify_args = [("floating_ip", floating_ip_id), ]
+        parsed_args = self.check_parser(
+            self.cmd, [floating_ip_id], verify_args
+        )
+
+        with self.mocked_find:
+            mocked_get.return_value = resource.AntiDDosStatus(
+                None, dict(status=self._antiddos.status), attached=True
+            )
+            columns, data = self.cmd.take_action(parsed_args)
+            mocked_get.assert_called_once_with(
+                "/antiddos/" + floating_ip_id + "/status",
+                resource_class=resource.AntiDDosStatus
+            )
+
+            self.assertEqual(columns, resource.AntiDDosStatus.show_column_names)
+            self.assertEqual(tuple(data), (self._antiddos.status,))
+
+
+@mock.patch.object(antiddos_mgr.AntiDDosManager, "_list")
+class TestListAntiDDosDailyReport(TestAntiDDos):
+    def setUp(self):
+        super(TestListAntiDDosDailyReport, self).setUp()
+        self.cmd = antiddos.ListAntiDDosDailyReport(self.app, None)
+
+    def test_list_antiddos_daily_reports(self, mocked_list):
+        floating_ip_id = self._antiddos.floating_ip_id
+        verify_args = [("floating_ip", floating_ip_id), ]
+        parsed_args = self.check_parser(
+            self.cmd, [floating_ip_id], verify_args
+        )
+
+        with self.mocked_find:
+            reports = [resource.AntiDDosDailyReport(None, report, attached=True)
+                       for report in self.daily_report]
+
+            mocked_list.return_value = reports
+            columns, data = self.cmd.take_action(parsed_args)
+
+            mocked_list.assert_called_once_with(
+                "/antiddos/" + floating_ip_id + "/daily",
+                key="data",
+                resource_class=resource.AntiDDosDailyReport
+            )
+            expect_columns = resource.AntiDDosDailyReport.list_column_names
+            self.assertEqual(columns, expect_columns)
+            expect_data = (report.get_display_data(columns)
+                           for report in reports)
+            self.assertEqual(tuple(data), tuple(expect_data))
+
+
+@mock.patch.object(antiddos_mgr.AntiDDosManager, "_list")
+class TestListAntiDDosLogs(TestAntiDDos):
+    def __init__(self, *args, **kwargs):
+        super(TestListAntiDDosLogs, self).__init__(*args, **kwargs)
+        self.logs = [
+            {
+                "start_time": 1473217200000,
+                "end_time": 1473242400000,
+                "status": 1,
+                "trigger_bps": 51106,
+                "trigger_pps": 2600,
+                "trigger_http_pps": 3589
+            }
+        ]
+
+    def setUp(self):
+        super(TestListAntiDDosLogs, self).setUp()
+        self.cmd = antiddos.ListAntiDDosLogs(self.app, None)
+
+    def test_list_antiddos_logs_with_all_options(self, mocked_list):
+        floating_ip_id = self._antiddos.floating_ip_id
+        args = [
+            "--limit", "10",
+            "--offset", "10",
+            "--sort-dir", "asc",
+            floating_ip_id
+        ]
+        verify_args = [
+            ("floating_ip", floating_ip_id),
+            ("limit", 10),
+            ("offset", 10),
+        ]
+        parsed_args = self.check_parser(
+            self.cmd, args, verify_args
+        )
+
+        with self.mocked_find:
+            logs = [resource.AntiDDosLog(None, log, attached=True)
+                    for log in self.logs]
+
+            mocked_list.return_value = logs
+            columns, data = self.cmd.take_action(parsed_args)
+            mocked_list.assert_called_once_with(
+                "/antiddos/" + floating_ip_id + "/logs",
+                key="logs",
+                params=dict(limit=10, offset=10, sort_dir="asc"),
+                resource_class=resource.AntiDDosLog
+            )
+            expect_columns = resource.AntiDDosLog.list_column_names
+            self.assertEqual(columns, expect_columns)
+            expect_data = (
+                (
+                    "2016-09-07 11:00:00",
+                    "2016-09-07 18:00:00",
+                    "Packet Cleaning",
+                    51106,
+                    2600,
+                    3589
+                ),
+            )
+
+            self.assertEqual(tuple(data), expect_data)
