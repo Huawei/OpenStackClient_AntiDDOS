@@ -34,7 +34,8 @@ class Manager(object):
     def __init__(self, http_client):
         """initial with open stack http client
 
-        :param antiddosclient.common.httpclient.OpenStackHttpClient http_client:
+        :param http_client: http requester with type of
+            antiddosclient.common.httpclient.OpenStackHttpClient
         """
         self.http_client = http_client
 
@@ -50,7 +51,8 @@ class Manager(object):
         :rtype: Resource
         """
         resp, body = self.http_client.get(url, params=params, headers=headers)
-        resource_class = resource_class if resource_class else self.resource_class
+        resource_class = (resource_class if resource_class
+                          else self.resource_class)
         # get required body part
         data = self.get_data(body, key)
         data = data if data else []
@@ -141,47 +143,3 @@ class Manager(object):
             return resource.TupleWithMeta((), resp)
         else:
             return resource.DictWithMeta(item, resp)
-
-# @six.add_metaclass(abc.ABCMeta)
-# class ManagerWithFind(Manager):
-#     """Manager with additional `find()`/`findall()` methods."""
-#
-#     @abc.abstractmethod
-#     def list(self):
-#         pass
-#
-#     def find(self, **kwargs):
-#         """Find a single item with attributes matching ``**kwargs``.
-#
-#         This isn't very efficient: it loads the entire list then filters on
-#         the Python side.
-#         """
-#         matches = self.findall(**kwargs)
-#         num = len(matches)
-#
-#         if num == 0:
-#             msg = "No %s matching %s." % (self.resource_class.__name__, kwargs)
-#             raise exceptions.NotFound(msg)
-#         elif num > 1:
-#             raise exceptions.NoUniqueMatch
-#         else:
-#             return self.get(matches[0].uuid)
-#
-#     def findall(self, **kwargs):
-#         """Find all items with attributes matching ``**kwargs``.
-#
-#         This isn't very efficient: it loads the entire list then filters on
-#         the Python side.
-#         """
-#         found = []
-#         searches = kwargs.items()
-#
-#         for obj in self.list():
-#             try:
-#                 if all(getattr(obj, attr) == value
-#                        for (attr, value) in searches):
-#                     found.append(obj)
-#             except AttributeError:
-#                 continue
-#
-#         return found

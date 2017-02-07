@@ -238,7 +238,8 @@ class ListAntiDDosWeeklyReport(command.Lister):
 
     def take_action(self, args):
         manager = self.app.client_manager.antiddos.antiddos
-        floating_ip = manager.find(args.floating_ip)
-        reports = manager.get_antiddos_weekly_report(floating_ip.floating_ip_id)
+        floating = manager.find(args.floating_ip)
+        floating_ip_id = floating.floating_ip_id
+        reports = manager.get_antiddos_weekly_report(floating_ip_id)
         columns = resource.AntiDDosWeeklyReport.list_column_names
         return columns, (r.get_display_data(columns) for r in reports)

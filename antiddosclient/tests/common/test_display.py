@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# 
 #   Licensed under the Apache License, Version 2.0 (the 'License'); you may
 #   not use this file except in compliance with the License. You may obtain
 #   a copy of the License at
@@ -13,25 +12,22 @@
 #   License for the specific language governing permissions and limitations
 #   under the License.
 #
-
 from antiddosclient.common import display
 from antiddosclient.common import resource
 from antiddosclient.tests import base
 
 
 class DisplayResource(resource.Resource, display.Display):
-
     @property
     def computed(self):
         return self.column_a + self.column_b
 
     column_2_property = {
-        "Columnb" : "column_b"
+        "Columnb": "column_b"
     }
 
 
 class OverrideResource(resource.Resource, display.Display):
-
     show_column_names = ('column_a', 'columnb')
     list_column_names = ('column_a', 'columnb', 'column_array')
 
@@ -59,7 +55,7 @@ class TestDisplay(base.BaseTestCase):
                                 instance['column_b'],
                                 instance['column_array'],
                                 instance['column_dict'],
-                                (instance['column_a']+instance['column_b'])))
+                                (instance['column_a'] + instance['column_b'])))
 
         column_names = ('column_array', 'Column Dict', 'Column A', 'Columnb',
                         'computed')
@@ -89,5 +85,5 @@ class TestDisplay(base.BaseTestCase):
 
         # override list column names by property _list_column_names
         self.assertEqual(r.show_column_names, ('column_a', 'columnb'))
-        self.assertEqual(r.list_column_names, ('column_a', 'columnb', 'column_array'))
-
+        self.assertEqual(r.list_column_names,
+                         ('column_a', 'columnb', 'column_array'))
