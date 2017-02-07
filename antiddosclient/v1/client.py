@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# 
 #   Licensed under the Apache License, Version 2.0 (the "License"); you may
 #   not use this file except in compliance with the License. You may obtain
 #   a copy of the License at
@@ -50,7 +49,9 @@ class Client(object):
 
         if endpoint:
             endpoint += '/v1/%(project_id)s'
-        self.client = httpclient.OpenStackHttpClient(session, endpoint, **kwargs)
+        self.client = httpclient.OpenStackHttpClient(
+            session, endpoint, **kwargs
+        )
 
         # initial anti-ddos modules
         self.antiddos = antiddos_mgr.AntiDDosManager(self.client)

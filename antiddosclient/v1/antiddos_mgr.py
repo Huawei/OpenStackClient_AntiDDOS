@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# 
 #   Licensed under the Apache License, Version 2.0 (the "License"); you may
 #   not use this file except in compliance with the License. You may obtain
 #   a copy of the License at
@@ -113,7 +112,8 @@ class AntiDDosManager(manager.Manager):
     def list(self, status=None, ip=None, limit=None, offset=None):
         """list antiddos status of all EIP
 
-        :param status: normal|configging|notConfig|packetcleaning|packetdropping
+        :param status:
+            normal|configging|notConfig|packetcleaning|packetdropping
         :param ip: query for ip matches ".*ip.*"
         :param limit: max returned length
         :param offset: query offset
@@ -140,7 +140,10 @@ class AntiDDosManager(manager.Manager):
         return self._get(url, resource_class=resource.AntiDDosStatus)
 
     def get_antiddos_daily_report(self, floating_ip_id):
-        """get past 24 hours anti-ddos protection report(every 5 minutes) of EIP"""
+        """get past 24 hours antiddos protection report of the EIP
+
+        report for every 5 minutes
+        """
         url = "/antiddos/%s/daily" % floating_ip_id
         return self._list(url,
                           key="data",

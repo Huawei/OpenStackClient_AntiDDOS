@@ -420,7 +420,8 @@ class TestAntiDDosStatusShow(TestAntiDDos):
                 resource_class=resource.AntiDDosStatus
             )
 
-            self.assertEqual(columns, resource.AntiDDosStatus.show_column_names)
+            self.assertEqual(columns,
+                             resource.AntiDDosStatus.show_column_names)
             self.assertEqual(tuple(data), (self._antiddos.status,))
 
 
@@ -438,8 +439,8 @@ class TestListAntiDDosDailyReport(TestAntiDDos):
         )
 
         with self.mocked_find:
-            reports = [resource.AntiDDosDailyReport(None, report, attached=True)
-                       for report in self.daily_report]
+            reports = [resource.AntiDDosDailyReport(None, r, attached=True)
+                       for r in self.daily_report]
 
             mocked_list.return_value = reports
             columns, data = self.cmd.take_action(parsed_args)

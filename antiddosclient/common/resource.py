@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# 
 #   Licensed under the Apache License, Version 2.0 (the "License"); you may
 #   not use this file except in compliance with the License. You may obtain
 #   a copy of the License at
@@ -115,8 +114,9 @@ class Resource(RequestIdMixin):
 
     def __repr__(self):
         repr_keys = sorted(k for k in self.__dict__.keys() if k[0] != '_' and
-                          k not in ('manager', 'request_id'))
-        attr_list = ", ".join("%s=%s" % (k, getattr(self, k)) for k in repr_keys)
+                           k not in ('manager', 'request_id'))
+        attr_list = ", ".join("%s=%s" % (k, getattr(self, k))
+                              for k in repr_keys)
         return "<%s %s>" % (self.__class__.__name__, attr_list)
 
     def __eq__(self, other):

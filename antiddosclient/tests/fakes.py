@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# 
 #   Licensed under the Apache License, Version 2.0 (the "License"); you may
 #   not use this file except in compliance with the License. You may obtain
 #   a copy of the License at
@@ -13,15 +12,17 @@
 #   License for the specific language governing permissions and limitations
 #   under the License.
 #
-
 import mock
+
+from oslo_serialization import jsonutils
+from requests import Response
+
 from antiddosclient.common import display
 from antiddosclient.common import manager
 from antiddosclient.common import resource as r
 from antiddosclient.common import utils
 from antiddosclient.v1 import antiddos_mgr
-from oslo_serialization import jsonutils
-from requests import Response
+
 
 # fake request id
 FAKE_REQUEST_ID = 'req-0594c66b-6973-405c-ae2c-43fcfc00f2e3'

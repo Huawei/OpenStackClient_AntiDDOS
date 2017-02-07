@@ -34,13 +34,17 @@ def make_client(instance):
     """Returns an orchestration service client"""
 
     api_version = instance._api_version[API_NAME]
-    antiddos_client = utils.get_client_class(API_NAME, api_version, API_VERSIONS)
+    antiddos_client = utils.get_client_class(
+        API_NAME, api_version, API_VERSIONS
+    )
 
     kwargs = {
         'region_name': instance.region_name,
         'interface': instance.interface
     }
-    endpoint = instance._cli_options.config.get('antiddos_endpoint_override', None)
+    endpoint = instance._cli_options.config.get(
+        'antiddos_endpoint_override', None
+    )
 
     LOGGER.debug('Instantiating antiddos client: %s', antiddos_client)
     LOGGER.debug('Instantiating antiddos client with kwargs: %s', kwargs)
