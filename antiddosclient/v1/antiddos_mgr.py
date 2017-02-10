@@ -170,11 +170,13 @@ class AntiDDosManager(manager.Manager):
         :param period_start_date: period start date (datetime)
         :return:
         """
-
-        epoch = time.mktime(period_start_date.timetuple())
-        params = utils.remove_empty_from_dict({
-            "period_start_date": int(epoch)
-        })
+        if period_start_date:
+            epoch = time.mktime(period_start_date.timetuple())
+            params = utils.remove_empty_from_dict({
+                "period_start_date": int(epoch)
+            })
+        else:
+            params = {}
         url = "/antiddos/weekly"
         return self._get(url,
                          params=params,
