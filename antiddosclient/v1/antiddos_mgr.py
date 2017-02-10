@@ -172,9 +172,9 @@ class AntiDDosManager(manager.Manager):
         """
 
         epoch = time.mktime(period_start_date.timetuple())
-        params = {
+        params = utils.remove_empty_from_dict({
             "period_start_date": int(epoch)
-        }
+        })
         url = "/antiddos/weekly"
         return self._get(url,
                          params=params,
