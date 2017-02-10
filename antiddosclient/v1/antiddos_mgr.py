@@ -13,6 +13,7 @@
 #   under the License.
 #
 import re
+import time
 
 from antiddosclient.common import exceptions as execs
 from antiddosclient.common import manager
@@ -166,8 +167,15 @@ class AntiDDosManager(manager.Manager):
     def get_antiddos_weekly_report(self, period_start_date=None):
         """get weekly anti-ddos report for all EIP
 
-        :param long period_start_date: start date in long
+        :param period_start_date: period start date (datetime)
         :return:
         """
+
+        epoch = time.mktime(period_start_date.timetuple())
+        params = {
+            "period_start_date": int(epoch)
+        }
         url = "/antiddos/weekly"
-        return self._get(url, resource_class=resource.AntiDDosWeeklyReport)
+        return self._get(url,
+                         params=params,
+                         resource_class=resource.AntiDDosWeeklyReport)

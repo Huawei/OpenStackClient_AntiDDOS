@@ -15,15 +15,15 @@
 import random
 import uuid
 
+import datetime
 import mock
-from keystoneauth1 import exceptions as execs
-
 from antiddosclient.common import exceptions
 from antiddosclient.common import resource as base_resource
 from antiddosclient.osc.v1 import antiddos
 from antiddosclient.tests import base
 from antiddosclient.v1 import antiddos_mgr
 from antiddosclient.v1 import resource
+from keystoneauth1 import exceptions as execs
 
 
 class TestAntiDDos(base.AntiDDosV1BaseTestCase):
@@ -618,7 +618,9 @@ class TestListAntiDDosWeeklyReport(TestAntiDDos):
 
     def test_list_antiddos_weekly_reports(self, mocked_list):
         parsed_args = self.check_parser(
-            self.cmd, [], ()
+            self.cmd,
+            ["--start-date", "2017-02-08"],
+            [("start_date", datetime.datetime(2017, 2, 8)),],
         )
 
         weekly = {
@@ -649,10 +651,11 @@ class TestListAntiDDosWeeklyReport(TestAntiDDos):
 
         report = resource.AntiDDosWeeklyReport(None, weekly, attached=True)
         mocked_list.return_value = report
-        columns, data = self.cmd.take_action(None)
+        columns, data = self.cmd.take_action(parsed_args)
 
         mocked_list.assert_called_once_with(
             "/antiddos/weekly",
+            params=dict(period_start_date=1486483200),
             resource_class=resource.AntiDDosWeeklyReport
         )
         expect_columns = resource.AntiDDosWeeklyReport.show_column_names
@@ -660,10 +663,13 @@ class TestListAntiDDosWeeklyReport(TestAntiDDos):
 
         expected = (
             23,
-            ("ddos_blackhole_times='0', ddos_intercept_times='0', "
-             "max_attack_bps='0', max_attack_conns='0', period_start_date='1474214461651'\n"
-             "ddos_blackhole_times='0', ddos_intercept_times='0', "
-             "max_attack_bps='0', max_attack_conns='0', period_start_date='1474300861651'"),
-            "floating_ip_address='160.44.196.90', times='6'",
+            (
+                "ddos_blackhole_times='0', ddos_intercept_times='0', "
+                "max_attack_bps='0', max_attack_conns='0', "
+                "period_start_date='2016-09-19 00:01:01'\n"
+                "ddos_blackhole_times='0', ddos_intercept_times='0', "
+                "max_attack_bps='0', max_attack_conns='0', "
+                "period_start_date='2016-09-20 00:01:01'"),
+            "floating_ip_address='192.168.44.69', times='23'",
         )
         self.assertEqual(expected, data)

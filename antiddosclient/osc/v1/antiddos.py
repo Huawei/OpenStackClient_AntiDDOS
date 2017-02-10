@@ -14,6 +14,7 @@
 #
 import logging
 
+from antiddosclient.common import parsetypes
 from osc_lib.command import command
 
 from antiddosclient.common import parser as p
@@ -227,19 +228,20 @@ class ListAntiDDosWeeklyReport(command.ShowOne):
     _description = _("List AntiDDos weekly report")
 
     def get_parser(self, prog_name):
-        # TODO (woo)
         parser = super(ListAntiDDosWeeklyReport, self).get_parser(prog_name)
         parser.add_argument(
             '--start-date',
             metavar='<start-date>',
             required=False,
-            help=_("start date (No meaning for now)")
+            type=parsetypes.date_type,
+            help=_("start date (yyyy-MM-dd)")
         )
         return parser
 
     def take_action(self, args):
         manager = self.app.client_manager.antiddos.antiddos
-        report = manager.get_antiddos_weekly_report()
+        report = manager.get_antiddos_weekly_report(args.start_date)
         columns = resource.AntiDDosWeeklyReport.show_column_names
         formatter = resource.AntiDDosWeeklyReport.formatter
-        return columns, report.get_display_data(columns, formatter=formatter)
+        output = report.get_display_data(columns, formatter=formatter)
+        return columns, output

@@ -153,11 +153,15 @@ class AntiDDosWeeklyReport(resource.Resource, display.Display):
         "top10"
     ]
 
-    column_2_property = {
-        "Weekly data": "weekdata"
-    }
-
     formatter = {
-        "weekdata": formatter.format_list_of_dicts,
+        # "weekdata": formatter.format_list_of_dicts,
         "top10": formatter.format_list_of_dicts,
     }
+
+    @property
+    def weekly_data(self):
+        if self.weekdata:
+            for data in self.weekdata:
+                time_long = data["period_start_date"]
+                data["period_start_date"] = utils.format_time(time_long)
+        return formatter.format_list_of_dicts(self.weekdata)

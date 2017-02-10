@@ -119,10 +119,7 @@ class Manager(object):
                 return self.mixin_meta(content, resp)
             else:
                 rc = resource_class if resource_class else self.resource_class
-                return self.resource_class(self,
-                                           content,
-                                           resp=resp,
-                                           attached=True)
+                return rc(self, content, resp=resp, attached=True)
         else:
             return resource.StrWithMeta(resp.text, resp)
 
