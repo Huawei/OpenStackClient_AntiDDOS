@@ -24,7 +24,7 @@ from antiddosclient.v1 import resource
 LOG = logging.getLogger(__name__)
 
 
-class QueryAntiDDosConfig(command.Lister):
+class QueryAntiDDosConfig(command.ShowOne):
     _description = _("Query AntiDDos configurations")
 
     def get_parser(self, prog_name):
@@ -34,8 +34,9 @@ class QueryAntiDDosConfig(command.Lister):
     def take_action(self, args):
         client = self.app.client_manager.antiddos
         data = client.antiddos.query_config_list()
-        columns = resource.AntiDDos.list_column_names
-        return columns, (r.get_display_data(columns) for r in data)
+        columns = resource.AntiDDosConfig.show_column_names
+        formatter = resource.AntiDDosConfig.formatter
+        return columns, data.get_display_data(columns, formatter=formatter)
 
 
 class OpenAntiDDos(command.Command):
@@ -222,7 +223,7 @@ class ListAntiDDosLogs(command.Lister):
         return columns, data
 
 
-class ListAntiDDosWeeklyReport(command.Lister):
+class ListAntiDDosWeeklyReport(command.ShowOne):
     _description = _("List AntiDDos weekly report")
 
     def get_parser(self, prog_name):
@@ -231,15 +232,14 @@ class ListAntiDDosWeeklyReport(command.Lister):
         parser.add_argument(
             '--start-date',
             metavar='<start-date>',
-            required=True,
-            help=_("start date, start ")
+            required=False,
+            help=_("start date (No meaning for now)")
         )
         return parser
 
     def take_action(self, args):
         manager = self.app.client_manager.antiddos.antiddos
-        floating = manager.find(args.floating_ip)
-        floating_ip_id = floating.floating_ip_id
-        reports = manager.get_antiddos_weekly_report(floating_ip_id)
-        columns = resource.AntiDDosWeeklyReport.list_column_names
-        return columns, (r.get_display_data(columns) for r in reports)
+        report = manager.get_antiddos_weekly_report()
+        columns = resource.AntiDDosWeeklyReport.show_column_names
+        formatter = resource.AntiDDosWeeklyReport.formatter
+        return columns, report.get_display_data(columns, formatter=formatter)

@@ -163,12 +163,11 @@ class AntiDDosManager(manager.Manager):
                           params=params,
                           resource_class=resource.AntiDDosLog)
 
-    def get_antiddos_weekly_report(self, period_start_date):
+    def get_antiddos_weekly_report(self, period_start_date=None):
         """get weekly anti-ddos report for all EIP
 
         :param long period_start_date: start date in long
         :return:
         """
         url = "/antiddos/weekly"
-        # TODO(Woo) confirm return data type
         return self._get(url, resource_class=resource.AntiDDosWeeklyReport)

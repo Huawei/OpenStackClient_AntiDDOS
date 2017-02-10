@@ -1,7 +1,45 @@
 Command Samples
 ===============
 
-1. antiddos config
+1. antiddos config::
+
+    $
+    +-------------------------+-----------------------------------------------------------------------------------------+
+    | Field                   | Value                                                                                   |
+    +-------------------------+-----------------------------------------------------------------------------------------+
+    | Traffic limited list    | packet_per_second='2000', traffic_per_second='10', traffic_pos_id='1'                   |
+    |                         | packet_per_second='6000', traffic_per_second='30', traffic_pos_id='2'                   |
+    |                         | packet_per_second='10000', traffic_per_second='50', traffic_pos_id='3'                  |
+    |                         | packet_per_second='15000', traffic_per_second='70', traffic_pos_id='4'                  |
+    |                         | packet_per_second='20000', traffic_per_second='100', traffic_pos_id='5'                 |
+    |                         | packet_per_second='25000', traffic_per_second='150', traffic_pos_id='6'                 |
+    |                         | packet_per_second='35000', traffic_per_second='200', traffic_pos_id='7'                 |
+    |                         | packet_per_second='50000', traffic_per_second='250', traffic_pos_id='8'                 |
+    |                         | packet_per_second='70000', traffic_per_second='300', traffic_pos_id='9'                 |
+    | HTTP limited list       | http_packet_per_second='100', http_request_pos_id='1'                                   |
+    |                         | http_packet_per_second='150', http_request_pos_id='2'                                   |
+    |                         | http_packet_per_second='240', http_request_pos_id='3'                                   |
+    |                         | http_packet_per_second='350', http_request_pos_id='4'                                   |
+    |                         | http_packet_per_second='480', http_request_pos_id='5'                                   |
+    |                         | http_packet_per_second='550', http_request_pos_id='6'                                   |
+    |                         | http_packet_per_second='700', http_request_pos_id='7'                                   |
+    |                         | http_packet_per_second='850', http_request_pos_id='8'                                   |
+    |                         | http_packet_per_second='1000', http_request_pos_id='9'                                  |
+    |                         | http_packet_per_second='1500', http_request_pos_id='10'                                 |
+    |                         | http_packet_per_second='2000', http_request_pos_id='11'                                 |
+    |                         | http_packet_per_second='3000', http_request_pos_id='12'                                 |
+    |                         | http_packet_per_second='5000', http_request_pos_id='13'                                 |
+    |                         | http_packet_per_second='10000', http_request_pos_id='14'                                |
+    |                         | http_packet_per_second='20000', http_request_pos_id='15'                                |
+    | Connection limited list | cleaning_access_pos_id='1', new_connection_limited='10', total_connection_limited='30'  |
+    |                         | cleaning_access_pos_id='2', new_connection_limited='20', total_connection_limited='100' |
+    |                         | cleaning_access_pos_id='3', new_connection_limited='30', total_connection_limited='200' |
+    |                         | cleaning_access_pos_id='4', new_connection_limited='40', total_connection_limited='250' |
+    |                         | cleaning_access_pos_id='5', new_connection_limited='50', total_connection_limited='300' |
+    |                         | cleaning_access_pos_id='6', new_connection_limited='60', total_connection_limited='500' |
+    |                         | cleaning_access_pos_id='7', new_connection_limited='70', total_connection_limited='600' |
+    |                         | cleaning_access_pos_id='8',new_connection_limited='80', total_connection_limited='700' |
+    +-------------------------+-----------------------------------------------------------------------------------------+
 
 #. antiddos open (开启AntiDDos）
 

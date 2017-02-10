@@ -12,6 +12,8 @@
 #   License for the specific language governing permissions and limitations
 #   under the License.
 #
+from osc_lib import utils as formatter
+
 from antiddosclient.common import display
 from antiddosclient.common import resource
 from antiddosclient.common import utils
@@ -77,20 +79,17 @@ class AntiDDosStatus(resource.Resource, display.Display):
 class AntiDDosConfig(resource.Resource, display.Display):
     """AntiDDos configuration resource _antiddos."""
 
-    status_list = [
-        "normal",
-        "configging",
-        "notConfig",
-        "packetcleaning",
-        "packetdropping",
+    show_column_names = [
+        "Traffic limited list",
+        "HTTP limited list",
+        "Connection limited list"
     ]
 
-    show_column_names = (
-        'floating ip id',
-        'floating ip address',
-        'network type',
-        'status',
-    )
+    formatter = {
+        "Traffic limited list": formatter.format_list_of_dicts,
+        "HTTP limited list": formatter.format_list_of_dicts,
+        "Connection limited list": formatter.format_list_of_dicts,
+    }
 
 
 class AntiDDosDailyReport(resource.Resource, display.Display):
@@ -147,3 +146,18 @@ class AntiDDosLog(resource.Resource, display.Display):
 
 class AntiDDosWeeklyReport(resource.Resource, display.Display):
     """AntiDDos weekly summary report"""
+
+    show_column_names = [
+        "DDOS intercept times",
+        "Weekly data",
+        "top10"
+    ]
+
+    column_2_property = {
+        "Weekly data": "weekdata"
+    }
+
+    formatter = {
+        "weekdata": formatter.format_list_of_dicts,
+        "top10": formatter.format_list_of_dicts,
+    }

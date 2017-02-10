@@ -16,13 +16,14 @@ import random
 import uuid
 
 import mock
+from keystoneauth1 import exceptions as execs
+
 from antiddosclient.common import exceptions
 from antiddosclient.common import resource as base_resource
 from antiddosclient.osc.v1 import antiddos
 from antiddosclient.tests import base
 from antiddosclient.v1 import antiddos_mgr
 from antiddosclient.v1 import resource
-from keystoneauth1 import exceptions as execs
 
 
 class TestAntiDDos(base.AntiDDosV1BaseTestCase):
@@ -115,6 +116,94 @@ class TestAntiDDos(base.AntiDDosV1BaseTestCase):
         return {
             "task_id": task_id or uuid.uuid4().hex,
         }
+
+
+@mock.patch.object(antiddos_mgr.AntiDDosManager, "_get")
+class TestAntiDDosConfig(TestAntiDDos):
+    def setUp(self):
+        super(TestAntiDDosConfig, self).setUp()
+        self.cmd = antiddos.QueryAntiDDosConfig(self.app, None)
+
+    def test_antiddos_config_list(self, mocked_get):
+        configs = {
+            "traffic_limited_list": [
+                {
+                    "traffic_pos_id": 1,
+                    "traffic_per_second": 10,
+                    "packet_per_second": 2000
+                },
+                {
+                    "traffic_pos_id": 2,
+                    "traffic_per_second": 30,
+                    "packet_per_second": 6000
+                }
+            ],
+            "http_limited_list": [
+                {
+                    "http_request_pos_id": 1,
+                    "http_packet_per_second": 100
+                },
+                {
+                    "http_request_pos_id": 2,
+                    "http_packet_per_second": 150
+                }
+            ],
+            "connection_limited_list": [
+                {
+                    "cleaning_access_pos_id": 1,
+                    "new_connection_limited": 10,
+                    "total_connection_limited": 30
+                },
+                {
+                    "cleaning_access_pos_id": 2,
+                    "new_connection_limited": 20,
+                    "total_connection_limited": 100
+                },
+                {
+                    "cleaning_access_pos_id": 3,
+                    "new_connection_limited": 30,
+                    "total_connection_limited": 200
+                },
+                {
+                    "cleaning_access_pos_id": 4,
+                    "new_connection_limited": 40,
+                    "total_connection_limited": 250
+                }
+            ]
+        }
+
+        mocked_get.return_value = resource.AntiDDosConfig(None, configs)
+        columns, data = self.cmd.take_action(None)
+        mocked_get.assert_called_once_with(
+            "/antiddos/query_config_list",
+            resource_class=resource.AntiDDosConfig
+        )
+
+        self.assertEquals(columns, ["Traffic limited list",
+                                    "HTTP limited list",
+                                    "Connection limited list", ])
+
+        expected = (
+            "\n".join(("packet_per_second='2000', traffic_per_second='10', "
+                       "traffic_pos_id='1'",
+                       "packet_per_second='6000', traffic_per_second='30', "
+                       "traffic_pos_id='2'",
+                       )),
+            "\n".join(("http_packet_per_second='100', http_request_pos_id='1'",
+                       "http_packet_per_second='150', http_request_pos_id='2'",
+                       )),
+            "\n".join(
+                ("cleaning_access_pos_id='1', new_connection_limited='10', "
+                 "total_connection_limited='30'",
+                 "cleaning_access_pos_id='2', new_connection_limited='20', "
+                 "total_connection_limited='100'",
+                 "cleaning_access_pos_id='3', new_connection_limited='30', "
+                 "total_connection_limited='200'",
+                 "cleaning_access_pos_id='4', new_connection_limited='40', "
+                 "total_connection_limited='250'",
+                 )),
+        )
+        self.assertEquals(expected, data)
 
 
 @mock.patch.object(antiddos_mgr.AntiDDosManager, "_delete")
@@ -519,3 +608,62 @@ class TestListAntiDDosLogs(TestAntiDDos):
             )
 
             self.assertEqual(tuple(data), expect_data)
+
+
+@mock.patch.object(antiddos_mgr.AntiDDosManager, "_get")
+class TestListAntiDDosWeeklyReport(TestAntiDDos):
+    def setUp(self):
+        super(TestListAntiDDosWeeklyReport, self).setUp()
+        self.cmd = antiddos.ListAntiDDosWeeklyReport(self.app, None)
+
+    def test_list_antiddos_weekly_reports(self, mocked_list):
+        parsed_args = self.check_parser(
+            self.cmd, [], ()
+        )
+
+        weekly = {
+            "ddos_intercept_times": 23,
+            "weekdata": [
+                {
+                    "ddos_intercept_times": 0,
+                    "ddos_blackhole_times": 0,
+                    "max_attack_bps": 0,
+                    "max_attack_conns": 0,
+                    "period_start_date": 1474214461651
+                },
+                {
+                    "ddos_intercept_times": 0,
+                    "ddos_blackhole_times": 0,
+                    "max_attack_bps": 0,
+                    "max_attack_conns": 0,
+                    "period_start_date": 1474300861651
+                }
+            ],
+            "top10": [
+                {
+                    "floating_ip_address": "192.168.44.69",
+                    "times": 23
+                }
+            ]
+        }
+
+        report = resource.AntiDDosWeeklyReport(None, weekly, attached=True)
+        mocked_list.return_value = report
+        columns, data = self.cmd.take_action(None)
+
+        mocked_list.assert_called_once_with(
+            "/antiddos/weekly",
+            resource_class=resource.AntiDDosWeeklyReport
+        )
+        expect_columns = resource.AntiDDosWeeklyReport.show_column_names
+        self.assertEqual(columns, expect_columns)
+
+        expected = (
+            23,
+            ("ddos_blackhole_times='0', ddos_intercept_times='0', "
+             "max_attack_bps='0', max_attack_conns='0', period_start_date='1474214461651'\n"
+             "ddos_blackhole_times='0', ddos_intercept_times='0', "
+             "max_attack_bps='0', max_attack_conns='0', period_start_date='1474300861651'"),
+            "floating_ip_address='160.44.196.90', times='6'",
+        )
+        self.assertEqual(expected, data)
