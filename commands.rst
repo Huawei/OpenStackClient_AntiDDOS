@@ -3,7 +3,7 @@ Command Samples
 
 1. antiddos config::
 
-    $
+    $ openstack antiddos config
     +-------------------------+-----------------------------------------------------------------------------------------+
     | Field                   | Value                                                                                   |
     +-------------------------+-----------------------------------------------------------------------------------------+
@@ -41,9 +41,7 @@ Command Samples
     |                         | cleaning_access_pos_id='8',new_connection_limited='80', total_connection_limited='700' |
     +-------------------------+-----------------------------------------------------------------------------------------+
 
-#. antiddos open (开启AntiDDos）
-
-.. code:: console
+#. antiddos open (开启AntiDDos）::
 
     # open antiddos with IP
     $ openstack antiddos open 160.44.196.90 --enable-l7 --traffic-pos=1 --http-request-pos=1
@@ -55,9 +53,7 @@ Command Samples
             --cleaning-access-pos=1 --app-type=1 --os-antiddos-endpoint-override=https://antiddos.eu-de.otc.t-systems.com
     Request Received, task id: 13f621cb-3dfa-4d96-9821-cd7d11fb15af
 
-#. antiddos close (关闭AntiDDos）
-
-.. code:: console
+#. antiddos close (关闭AntiDDos）::
 
     # close antiddos with ip
     $ openstack antiddos close 160.44.196.90 --os-antiddos-endpoint-override=https://antiddos.eu-de.otc.t-systems.com
@@ -67,9 +63,7 @@ Command Samples
     $ openstack antiddos close 194bca90-9c23-43fb-b744-9d0bbd043a76 --os-antiddos-endpoint-override=https://antiddos.eu-de.otc.t-systems.com
     Request Received, task id: 13f621cb-3dfa-4d96-9821-cd7d11fb15af
 
-#. antiddos show (查看AntiDDos）
-
-.. code:: console
+#. antiddos show (查看AntiDDos）::
 
     # show antiddos with ip
     $ openstack antiddos show 160.44.197.150
@@ -93,9 +87,8 @@ Command Samples
     | status              | normal                               |
     +---------------------+--------------------------------------+
 
-#. antiddos set (更新AntiDDos设置）
+#. antiddos set (更新AntiDDos设置）::
 
-.. code:: console
 
     # update antiddos with ip
     $ openstack antiddos set 160.44.197.150 --disable-l7 --traffic-pos=2 --http-request-pos=2
@@ -103,9 +96,7 @@ Command Samples
     Request Received, task id: 13f621cb-3dfa-4d96-9821-cd7d11fb15af
 
 
-#. antiddos task show (查看AntiDDos任务状态）
-
-.. code:: console
+#. antiddos task show (查看AntiDDos任务状态）::
 
     $ openstack antiddos task show 11427e0f-dc37-4319-a0e2-390e560fe116
     +--------------+---------+
@@ -116,9 +107,7 @@ Command Samples
     +--------------+---------+
 
 
-#. antiddos status list (查看AntiDDos状态列表）
-
-.. code:: console
+#. antiddos status list (查看AntiDDos状态列表）::
 
     $ openstack  antiddos status list -h
     usage: openstack antiddos status list [-h] [-f {csv,json,table,value,yaml}]
@@ -160,9 +149,7 @@ Command Samples
     | 11ee0ec8-2b4f-438d-8235-dd22a3effa46 | 160.44.196.90       | EIP          | normal |
     +--------------------------------------+---------------------+--------------+--------+
 
-#. antiddos status show (查看AntiDDos防护状态）
-
-.. code:: console
+#. antiddos status show (查看AntiDDos防护状态）::
 
     $ openstack antiddos status show 160.44.197.150
     +--------+--------+
@@ -172,9 +159,8 @@ Command Samples
     +--------+--------+
 
 
-#. antiddos daily (查看AntiDDos防护流量）
+#. antiddos daily (查看AntiDDos防护流量）::
 
-.. code:: console
 
     $ openstack antiddos daily 160.44.197.150
     +---------------------+--------+------------+-----------+--------+------------+-----------+
@@ -192,17 +178,32 @@ Command Samples
     | 2017-01-23 18:03:33 |      0 |          0 |           |      0 |          0 |           |
     ......
 
-#. antiddos logs (查看AntiDDos异常事件）
-
-.. code:: console
+#. antiddos logs (查看AntiDDos异常事件）::
 
     # Could not get data in Current Env, will test later
     $ openstack antiddos logs 160.44.197.150 --limit=10
 
 
-#. antiddos weekly (查看AntiDDos周防护统计情况）
+#. antiddos weekly (查看AntiDDos周防护统计情况）::
 
-.. code:: console
-
-    # Could not get data in Current Env, will test later
-    $ openstack antiddos weekly --limit=10
+    $ openstack antiddos weekly
+    +----------------------+-------------------------------------------------------------------------------------------------------------+
+    | Field                | Value                                                                                                       |
+    +----------------------+-------------------------------------------------------------------------------------------------------------+
+    | DDOS intercept times | 6                                                                                                           |
+    | Weekly data          | ddos_blackhole_times='0', ddos_intercept_times='0', max_attack_bps='0', max_attack_conns='0',               |
+    |                      | period_start_date='2017-01-30 18:39:59'                                                                     |
+    |                      | ddos_blackhole_times='0', ddos_intercept_times='0', max_attack_bps='0', max_attack_conns='0',               |
+    |                      | period_start_date='2017-01-31 18:39:59'                                                                     |
+    |                      | ddos_blackhole_times='0', ddos_intercept_times='0', max_attack_bps='0', max_attack_conns='0',               |
+    |                      | period_start_date='2017-02-01 18:39:59'                                                                     |
+    |                      | ddos_blackhole_times='0', ddos_intercept_times='0', max_attack_bps='0', max_attack_conns='0',               |
+    |                      | period_start_date='2017-02-02 18:39:59'                                                                     |
+    |                      | ddos_blackhole_times='0', ddos_intercept_times='0', max_attack_bps='0', max_attack_conns='0',               |
+    |                      | period_start_date='2017-02-03 18:39:59'                                                                     |
+    |                      | ddos_blackhole_times='0', ddos_intercept_times='1', max_attack_bps='121', max_attack_conns='0',             |
+    |                      | period_start_date='2017-02-04 18:39:59'                                                                     |
+    |                      | ddos_blackhole_times='0', ddos_intercept_times='0', max_attack_bps='0', max_attack_conns='0',               |
+    |                      | period_start_date='2017-02-05 18:39:59'                                                                     |
+    | top10                | floating_ip_address='160.44.196.90', times='6'                                                              |
+    +----------------------+-------------------------------------------------------------------------------------------------------------+
