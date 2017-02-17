@@ -46,7 +46,7 @@ class BaseParser(object):
     def add_limit_option(parser):
         parser.add_argument(
             "--limit",
-            metavar="<count>",
+            metavar="<limit>",
             type=int,
             help=_("return result limit")
         )
@@ -55,7 +55,7 @@ class BaseParser(object):
     def add_offset_option(parser):
         parser.add_argument(
             "--offset",
-            metavar="<count>",
+            metavar="<offset>",
             type=int,
             help=_("return result offset")
         )
