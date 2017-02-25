@@ -12,11 +12,12 @@
 #   License for the specific language governing permissions and limitations
 #   under the License.
 #
-from antiddosclient.common import exceptions
-from antiddosclient.tests import base
+import mock
 
 from keystoneauth1 import exceptions as exc
-import mock
+
+from antiddosclient.common import exceptions
+from antiddosclient.tests import base
 
 
 class TestHTTPExceptions(base.BaseTestCase):

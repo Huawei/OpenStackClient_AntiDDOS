@@ -151,7 +151,7 @@ Here's an example of listing antiddos status using Python library with keystone 
 .. code:: python
 
     >>> from keystoneauth1 import session
-    >>> from keystoneauth1 import client
+    >>> from keystoneauth1 import identity
     >>> from antiddosclient.v1 import client
 
     >>> # Use Keystone API v3 for authentication as example
