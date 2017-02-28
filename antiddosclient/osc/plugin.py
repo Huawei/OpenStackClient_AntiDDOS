@@ -27,6 +27,7 @@ DEFAULT_API_VERSION = '1'
 API_VERSION_OPTION = 'os_antiddos_api_version'
 API_VERSIONS = {
     '1': 'antiddosclient.v1.client.Client',
+    '2': 'antiddosclient.v2.client.Client',
 }
 
 
