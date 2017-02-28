@@ -25,6 +25,8 @@ from antiddosclient.v1 import antiddos_mgr
 
 
 # fake request id
+from antiddosclient.v2 import alert_mgr
+
 FAKE_REQUEST_ID = 'req-0594c66b-6973-405c-ae2c-43fcfc00f2e3'
 
 # fake resource id
@@ -121,3 +123,10 @@ class FakeAntiDDosV1Client(object):
     def __init__(self, **kwargs):
         self.fake_http_client = mock.Mock()
         self.antiddos = antiddos_mgr.AntiDDosManager(self.fake_http_client)
+
+
+class FakeAntiDDosV2Client(object):
+
+    def __init__(self):
+        self.fake_http_client = mock.Mock()
+        self.alerts = alert_mgr.AlertManager(self.fake_http_client)

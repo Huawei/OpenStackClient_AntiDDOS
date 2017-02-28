@@ -36,3 +36,16 @@ class AntiDDosV1BaseTestCase(BaseTestCase):
         super(AntiDDosV1BaseTestCase, self).setUp()
         fake_antiddos_client = fakes.FakeAntiDDosV1Client()
         self.app.client_manager.antiddos = fake_antiddos_client
+
+
+class AntiDDosV2BaseTestCase(BaseTestCase):
+    """Base test case class for AntiDDos V2 management API."""
+
+    def __init__(self, *args, **kwargs):
+        super(AntiDDosV2BaseTestCase, self).__init__(*args, **kwargs)
+        self.cmd = None
+
+    def setUp(self):
+        super(AntiDDosV2BaseTestCase, self).setUp()
+        fake_client = fakes.FakeAntiDDosV2Client()
+        self.app.client_manager.antiddos = fake_client
