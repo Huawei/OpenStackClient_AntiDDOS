@@ -97,7 +97,7 @@ class ShowAntiDDos(command.ShowOne):
 
 
 class SetAntiDDos(command.Command):
-    _description = _("Set AntiDDos settings of floating IP")
+    _description = _("Update AntiDDos settings of floating IP")
 
     def get_parser(self, prog_name):
         parser = super(SetAntiDDos, self).get_parser(prog_name)
