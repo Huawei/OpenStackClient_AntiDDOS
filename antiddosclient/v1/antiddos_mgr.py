@@ -173,7 +173,7 @@ class AntiDDosManager(manager.Manager):
         if period_start_date:
             epoch = time.mktime(period_start_date.timetuple())
             params = utils.remove_empty_from_dict({
-                "period_start_date": int(epoch)
+                "period_start_date": int(epoch*1000)
             })
         else:
             params = {}
