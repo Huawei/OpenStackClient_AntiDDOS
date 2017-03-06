@@ -122,7 +122,7 @@ class SetAntiDDos(command.Command):
 
 
 class ShowAntiDDosTask(command.ShowOne):
-    _description = _("Display AntiDDos setting task")
+    _description = _("Display antiddos related task details")
 
     def get_parser(self, prog_name):
         parser = super(ShowAntiDDosTask, self).get_parser(prog_name)
