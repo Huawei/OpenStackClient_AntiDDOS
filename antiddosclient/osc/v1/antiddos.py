@@ -225,7 +225,7 @@ class ListAntiDDosLogs(command.Lister):
 
 
 class ListAntiDDosWeeklyReport(command.ShowOne):
-    _description = _("List AntiDDos weekly report")
+    _description = _("List AntiDDos weekly protection statistics")
 
     def get_parser(self, prog_name):
         parser = super(ListAntiDDosWeeklyReport, self).get_parser(prog_name)
