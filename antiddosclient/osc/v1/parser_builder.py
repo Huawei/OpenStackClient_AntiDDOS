@@ -71,7 +71,7 @@ class AntiDDosParser(object):
     def add_http_request_rate_arg(parser):
         parser.add_argument(
             '--http-request-rate',
-            required=True,
+            required=False,
             choices=http_request_rate,
             type=int,
             help=_("HTTP request rate (per second), "
