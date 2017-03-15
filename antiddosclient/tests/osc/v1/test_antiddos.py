@@ -287,6 +287,7 @@ class TestAntiDDosOpen(TestAntiDDos):
             data = {
                 "enable_L7": False,
                 "traffic_pos_id": 1,
+                "http_request_pos_id": 15,
                 "cleaning_access_pos_id": 8,
                 "app_type_id": 1
             }

@@ -70,7 +70,7 @@ class AntiDDosManager(manager.Manager):
         data = utils.remove_empty_from_dict({
             "enable_L7": enable_l7,
             "traffic_pos_id": traffic_pos_id,
-            "http_request_pos_id": http_request_pos_id if enable_l7 else None,
+            "http_request_pos_id": http_request_pos_id if enable_l7 else 15,
             "cleaning_access_pos_id": cleaning_access_pos_id,
             "app_type_id": app_type_id
         })
@@ -103,7 +103,7 @@ class AntiDDosManager(manager.Manager):
         data = utils.remove_empty_from_dict({
             "enable_L7": enable_l7,
             "traffic_pos_id": traffic_pos_id,
-            "http_request_pos_id": http_request_pos_id if enable_l7 else None,
+            "http_request_pos_id": http_request_pos_id if enable_l7 else 15,
             "cleaning_access_pos_id": cleaning_access_pos_id,
             "app_type_id": app_type_id
         })
