@@ -67,13 +67,13 @@ class AntiDDosManager(manager.Manager):
             app_type_id
     ):
         """Open AntiDDos"""
-        data = {
+        data = utils.remove_empty_from_dict({
             "enable_L7": enable_l7,
             "traffic_pos_id": traffic_pos_id,
-            "http_request_pos_id": http_request_pos_id,
+            "http_request_pos_id": http_request_pos_id if enable_l7 else None,
             "cleaning_access_pos_id": cleaning_access_pos_id,
             "app_type_id": app_type_id
-        }
+        })
         return self._create("/antiddos/%s" % floating_ip_id,
                             data=data,
                             raw=True)
@@ -100,13 +100,13 @@ class AntiDDosManager(manager.Manager):
             app_type_id
     ):
         """update anti DDos"""
-        data = {
+        data = utils.remove_empty_from_dict({
             "enable_L7": enable_l7,
             "traffic_pos_id": traffic_pos_id,
-            "http_request_pos_id": http_request_pos_id,
+            "http_request_pos_id": http_request_pos_id if enable_l7 else None,
             "cleaning_access_pos_id": cleaning_access_pos_id,
             "app_type_id": app_type_id
-        }
+        })
         resource_url = "/antiddos/%s" % floating_ip_id
         return self._update_all(resource_url, data, raw=True)
 

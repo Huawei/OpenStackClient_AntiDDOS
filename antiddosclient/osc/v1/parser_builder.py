@@ -12,11 +12,19 @@
 #   License for the specific language governing permissions and limitations
 #   under the License.
 #
-from antiddosclient.common import utils
 from antiddosclient.common.i18n import _
 
 
+# traffic maximum
+maximum_service_traffic = [10, 30, 50, 70, 100, 150, 200, 250, 300]
+
+# http request rate
+http_request_rate = [100, 150, 240, 350, 480, 550, 700, 850, 1000, 1500, 2000,
+                     3000, 5000, 10000, 20000]
+
+
 class AntiDDosParser(object):
+
     @staticmethod
     def add_floating_ip_arg(parser):
         parser.add_argument(
@@ -43,37 +51,54 @@ class AntiDDosParser(object):
         )
 
     @staticmethod
-    def add_traffic_pos_arg(parser):
+    def add_maximum_service_traffic_arg(parser):
         parser.add_argument(
-            '--traffic-pos',
+            '--maximum-service-traffic',
             required=True,
-            choices=utils.str_range(1, 10),
-            help=_("traffic pos, integer between 1-9")
+            choices=maximum_service_traffic,
+            type=int,
+            help=_("Maximum service traffic (Mbit/s)")
         )
 
     @staticmethod
-    def add_http_request_pos_arg(parser):
+    def get_traffic_pos_id(traffic):
+        if traffic:
+            return maximum_service_traffic.index(int(traffic)) + 1
+        else:
+            return None
+
+    @staticmethod
+    def add_http_request_rate_arg(parser):
         parser.add_argument(
-            '--http-request-pos',
+            '--http-request-rate',
             required=True,
-            choices=utils.str_range(1, 16),
-            help=_("http request pos, integer between 1-15")
+            choices=http_request_rate,
+            type=int,
+            help=_("HTTP request rate (per second), "
+                   "only effect when L7 is enabled")
         )
 
     @staticmethod
-    def add_cleaning_access_pos_arg(parser):
-        parser.add_argument(
-            '--cleaning-access-pos',
-            required=True,
-            choices=utils.str_range(1, 9),
-            help=_("cleaning access pos, integer between 1-8")
-        )
+    def get_http_request_pos_id(rate):
+        if rate:
+            return http_request_rate.index(int(rate)) + 1
+        else:
+            return None
 
-    @staticmethod
-    def add_app_type_arg(parser):
-        parser.add_argument(
-            '--app-type',
-            required=True,
-            choices=('0', '1'),
-            help=_("app type, 0 or 1")
-        )
+    # @staticmethod
+    # def add_cleaning_access_pos_arg(parser):
+    #     parser.add_argument(
+    #         '--cleaning-access-pos',
+    #         required=True,
+    #         choices=utils.str_range(1, 9),
+    #         help=_("cleaning access pos, integer between 1-8")
+    #     )
+    #
+    # @staticmethod
+    # def add_app_type_arg(parser):
+    #     parser.add_argument(
+    #         '--app-type',
+    #         required=True,
+    #         choices=('0', '1'),
+    #         help=_("app type, 0 or 1")
+    #     )

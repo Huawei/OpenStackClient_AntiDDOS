@@ -47,21 +47,26 @@ class OpenAntiDDos(command.Command):
         parser = super(OpenAntiDDos, self).get_parser(prog_name)
         pb.AntiDDosParser.add_floating_ip_arg(parser)
         pb.AntiDDosParser.add_enable_l7_arg(parser)
-        pb.AntiDDosParser.add_traffic_pos_arg(parser)
-        pb.AntiDDosParser.add_http_request_pos_arg(parser)
-        pb.AntiDDosParser.add_cleaning_access_pos_arg(parser)
-        pb.AntiDDosParser.add_app_type_arg(parser)
+        pb.AntiDDosParser.add_maximum_service_traffic_arg(parser)
+        pb.AntiDDosParser.add_http_request_rate_arg(parser)
+        # pb.AntiDDosParser.add_cleaning_access_pos_arg(parser)
+        # pb.AntiDDosParser.add_app_type_arg(parser)
         return parser
 
     def take_action(self, args):
         client = self.app.client_manager.antiddos
         floating_ip = client.antiddos.find(args.floating_ip)
+        # issue 8, cleaning-pos fixed to 8, app-type fixed to 1
+        traffic_pos = pb.AntiDDosParser.get_traffic_pos_id(
+            args.maximum_service_traffic)
+        http_request_pos = pb.AntiDDosParser.get_http_request_pos_id(
+            args.http_request_rate)
         task = client.antiddos.open_antiddos(floating_ip.floating_ip_id,
                                              args.enable_l7,
-                                             args.traffic_pos,
-                                             args.http_request_pos,
-                                             args.cleaning_access_pos,
-                                             args.app_type)
+                                             traffic_pos,
+                                             http_request_pos,
+                                             8,
+                                             1)
 
         return 'Request Received, task id: ' + task['task_id']
 
@@ -103,21 +108,27 @@ class SetAntiDDos(command.Command):
         parser = super(SetAntiDDos, self).get_parser(prog_name)
         pb.AntiDDosParser.add_floating_ip_arg(parser)
         pb.AntiDDosParser.add_enable_l7_arg(parser)
-        pb.AntiDDosParser.add_traffic_pos_arg(parser)
-        pb.AntiDDosParser.add_http_request_pos_arg(parser)
-        pb.AntiDDosParser.add_cleaning_access_pos_arg(parser)
-        pb.AntiDDosParser.add_app_type_arg(parser)
+        pb.AntiDDosParser.add_maximum_service_traffic_arg(parser)
+        pb.AntiDDosParser.add_http_request_rate_arg(parser)
+        # pb.AntiDDosParser.add_cleaning_access_pos_arg(parser)
+        # pb.AntiDDosParser.add_app_type_arg(parser)
         return parser
 
     def take_action(self, args):
         client = self.app.client_manager.antiddos
         floating_ip = client.antiddos.find(args.floating_ip)
+
+        # issue 8, cleaning-pos fixed to 8, app-type fixed to 1
+        traffic_pos = pb.AntiDDosParser.get_traffic_pos_id(
+            args.maximum_service_traffic)
+        http_request_pos = pb.AntiDDosParser.get_http_request_pos_id(
+            args.http_request_rate)
         task = client.antiddos.update_antiddos(floating_ip.floating_ip_id,
                                                args.enable_l7,
-                                               args.traffic_pos,
-                                               args.http_request_pos,
-                                               args.cleaning_access_pos,
-                                               args.app_type)
+                                               traffic_pos,
+                                               http_request_pos,
+                                               8,
+                                               1)
         return 'Request Received, task id: ' + task['task_id']
 
 

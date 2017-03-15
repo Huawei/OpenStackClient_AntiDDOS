@@ -236,18 +236,14 @@ class TestAntiDDosOpen(TestAntiDDos):
         args = [
             "floating_ip_id_1",
             "--enable-l7",
-            "--traffic-pos", "1",
-            "--http-request-pos", "1",
-            "--cleaning-access-pos", "1",
-            "--app-type", "1"
+            "--maximum-service-traffic", "70",
+            "--http-request-rate", "240",
         ]
         verify_args = [
             ("floating_ip", "floating_ip_id_1"),
             ("enable_l7", True),
-            ("traffic_pos", "1"),
-            ("http_request_pos", "1"),
-            ("cleaning_access_pos", "1"),
-            ("app_type", "1"),
+            ("maximum_service_traffic", 70),
+            ("http_request_rate", 240),
         ]
         parsed_args = self.check_parser(self.cmd, args, verify_args)
 
@@ -259,10 +255,10 @@ class TestAntiDDosOpen(TestAntiDDos):
 
             data = {
                 "enable_L7": True,
-                "traffic_pos_id": "1",
-                "http_request_pos_id": "1",
-                "cleaning_access_pos_id": "1",
-                "app_type_id": "1"
+                "traffic_pos_id": 4,
+                "http_request_pos_id": 3,
+                "cleaning_access_pos_id": 8,
+                "app_type_id": 1
             }
             mocked.assert_called_once_with(url, data=data, raw=True)
             self.assertEqual(result, "Request Received, task id: %s" % task_id)
@@ -271,18 +267,14 @@ class TestAntiDDosOpen(TestAntiDDos):
         args = [
             "floating_ip_id_1",
             "--disable-l7",
-            "--traffic-pos", "1",
-            "--http-request-pos", "1",
-            "--cleaning-access-pos", "1",
-            "--app-type", "0"
+            "--maximum-service-traffic", "10",
+            "--http-request-rate", "100",
         ]
         verify_args = [
             ("floating_ip", "floating_ip_id_1"),
             ("enable_l7", False),
-            ("traffic_pos", "1"),
-            ("http_request_pos", "1"),
-            ("cleaning_access_pos", "1"),
-            ("app_type", "0"),
+            ("maximum_service_traffic", 10),
+            ("http_request_rate", 100),
         ]
         parsed_args = self.check_parser(self.cmd, args, verify_args)
 
@@ -294,10 +286,9 @@ class TestAntiDDosOpen(TestAntiDDos):
 
             data = {
                 "enable_L7": False,
-                "traffic_pos_id": "1",
-                "http_request_pos_id": "1",
-                "cleaning_access_pos_id": "1",
-                "app_type_id": "0"
+                "traffic_pos_id": 1,
+                "cleaning_access_pos_id": 8,
+                "app_type_id": 1
             }
             mocked.assert_called_once_with(url, data=data, raw=True)
             self.assertEqual(result, "Request Received, task id: %s" % task_id)
@@ -389,18 +380,14 @@ class TestAntiDDosSet(TestAntiDDos):
         args = [
             "floating_ip_id_1",
             "--enable-l7",
-            "--traffic-pos", "1",
-            "--http-request-pos", "1",
-            "--cleaning-access-pos", "1",
-            "--app-type", "1"
+            "--maximum-service-traffic", "70",
+            "--http-request-rate", "240",
         ]
         verify_args = [
             ("floating_ip", "floating_ip_id_1"),
             ("enable_l7", True),
-            ("traffic_pos", "1"),
-            ("http_request_pos", "1"),
-            ("cleaning_access_pos", "1"),
-            ("app_type", "1"),
+            ("maximum_service_traffic", 70),
+            ("http_request_rate", 240),
         ]
         parsed_args = self.check_parser(self.cmd, args, verify_args)
 
@@ -412,10 +399,10 @@ class TestAntiDDosSet(TestAntiDDos):
 
             data = {
                 "enable_L7": True,
-                "traffic_pos_id": "1",
-                "http_request_pos_id": "1",
-                "cleaning_access_pos_id": "1",
-                "app_type_id": "1"
+                "traffic_pos_id": 4,
+                "http_request_pos_id": 3,
+                "cleaning_access_pos_id": 8,
+                "app_type_id": 1
             }
             mocked.assert_called_once_with(url, data, raw=True)
             self.assertEqual(result, "Request Received, task id: %s" % task_id)
@@ -655,7 +642,7 @@ class TestListAntiDDosWeeklyReport(TestAntiDDos):
 
         mocked_list.assert_called_once_with(
             "/antiddos/weekly",
-            params=dict(period_start_date=1486483200),
+            params=dict(period_start_date=1486483200000),
             resource_class=resource.AntiDDosWeeklyReport
         )
         expect_columns = resource.AntiDDosWeeklyReport.show_column_names

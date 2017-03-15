@@ -44,13 +44,13 @@ Command Samples
 #. antiddos open (开启AntiDDos）::
 
     # open antiddos with IP
-    $ openstack antiddos open 160.44.196.90 --enable-l7 --traffic-pos=1 --http-request-pos=1
-            --cleaning-access-pos=1 --app-type=1 --os-antiddos-endpoint-override=https://antiddos.eu-de.otc.t-systems.com
+    $ openstack antiddos open 160.44.196.90 --enable-l7 --maximum-service-traffic=10 --http-request-rate=100
+            --os-antiddos-endpoint-override=https://antiddos.eu-de.otc.t-systems.com
     Request Received, task id: 13f621cb-3dfa-4d96-9821-cd7d11fb15af
 
     # open antiddos with floating ip id
-    $ openstack antiddos open 194bca90-9c23-43fb-b744-9d0bbd043a76 --enable-l7 --traffic-pos=1 --http-request-pos=1
-            --cleaning-access-pos=1 --app-type=1 --os-antiddos-endpoint-override=https://antiddos.eu-de.otc.t-systems.com
+    $ openstack antiddos open 194bca90-9c23-43fb-b744-9d0bbd043a76 --enable-l7 --maximum-service-traffic=10
+        --http-request-rate=100 --os-antiddos-endpoint-override=https://antiddos.eu-de.otc.t-systems.com
     Request Received, task id: 13f621cb-3dfa-4d96-9821-cd7d11fb15af
 
 #. antiddos close (关闭AntiDDos）::
@@ -91,8 +91,7 @@ Command Samples
 
 
     # update antiddos with ip
-    $ openstack antiddos set 160.44.197.150 --disable-l7 --traffic-pos=2 --http-request-pos=2
-        --cleaning-access-pos=2 --app-type=0
+    $ openstack antiddos set 160.44.197.150 --disable-l7 --maximum-service-traffic=30 --http-request-rate=150
     Request Received, task id: 13f621cb-3dfa-4d96-9821-cd7d11fb15af
 
 
