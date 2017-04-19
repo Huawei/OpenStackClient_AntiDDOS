@@ -17,6 +17,8 @@ from osc_lib import utils as formatter
 from antiddosclient.common import display
 from antiddosclient.common import resource
 from antiddosclient.common import utils
+from antiddosclient.osc.v1.parser_builder import maximum_service_traffic
+from antiddosclient.osc.v1.parser_builder import http_request_rate
 
 
 class AntiDDos(resource.Resource, display.Display):
@@ -38,16 +40,22 @@ class AntiDDos(resource.Resource, display.Display):
     )
 
     show_column_names = (
-        'enable L7',
-        'traffic pos id',
-        'http request pos id',
-        'cleaning access pos id',
-        'app Type id'
+        'CC Defense',
+        'maximum service traffic',
+        'http request rate',
     )
 
     @property
-    def enable_l7(self):
-        return "true" if self.enable_L7 else "false"
+    def cc_defense(self):
+        return "Enabled" if self.enable_L7 else "Disabled"
+
+    @property
+    def maximum_service_traffic(self):
+        return str(maximum_service_traffic[self.traffic_pos_id - 1]) + 'Mbit/s'
+
+    @property
+    def http_request_rate(self):
+        return str(http_request_rate[self.http_request_pos_id - 1]) + '/s'
 
 
 class AntiDDosTask(resource.Resource, display.Display):

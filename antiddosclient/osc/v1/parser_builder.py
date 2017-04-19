@@ -37,17 +37,17 @@ class AntiDDosParser(object):
     def add_enable_l7_arg(parser):
         enable_group = parser.add_mutually_exclusive_group()
         enable_group.add_argument(
-            '--enable-l7',
+            '--enable-CC',
             action="store_true",
             dest='enable_l7',
             default=True,
-            help=_("enable L7 protection (default)")
+            help=_("Enable CC Defence protection (default)")
         )
         enable_group.add_argument(
-            '--disable-l7',
+            '--disable-CC',
             action="store_false",
             dest='enable_l7',
-            help=_("disable L7 protection")
+            help=_("Disable CC Defence protection")
         )
 
     @staticmethod

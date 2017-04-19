@@ -83,12 +83,24 @@ class AntiDDosManager(manager.Manager):
         return self._delete("/antiddos/%s" % floating_ip_id)
 
     def get_antiddos(self, floating_ip_id):
-        """get anti DDos"""
+        """get AntiDDos
+
+        if antiddos is notConfig
+
+        """
         _antiddos = self._get("/antiddos/%s" % floating_ip_id)
         if isinstance(_antiddos, resource.AntiDDos):
             # server does not return floating ip id in response..
             _antiddos.floating_ip_id = floating_ip_id
-        return _antiddos
+            return _antiddos
+        else:
+            # path for server ...
+            _instance = {
+                'floating_ip_id': floating_ip_id,
+                'status': 'notConfig'
+            }
+            return resource.AntiDDos(None, _instance, attached=True,
+                                     resp=_antiddos.request_id)
 
     def update_antiddos(
             self,
@@ -173,7 +185,7 @@ class AntiDDosManager(manager.Manager):
         if period_start_date:
             epoch = time.mktime(period_start_date.timetuple())
             params = utils.remove_empty_from_dict({
-                "period_start_date": int(epoch*1000)
+                "period_start_date": int(epoch * 1000)
             })
         else:
             params = {}

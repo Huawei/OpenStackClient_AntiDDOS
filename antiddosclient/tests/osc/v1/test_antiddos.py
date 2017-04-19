@@ -62,6 +62,15 @@ class TestAntiDDos(base.AntiDDosV1BaseTestCase):
         }
     ]
 
+    antiddos = {
+        "enable_L7": True,
+        "traffic_pos_id": 1,
+        "http_request_pos_id": 1,
+        "cleaning_access_pos_id": 1,
+        "app_type_id": 1,
+        "floating_ip_id": "floating_ip_id_1"
+    }
+
     daily_report = [
         {
             "period_start": 1472713370609,
@@ -106,10 +115,7 @@ class TestAntiDDos(base.AntiDDosV1BaseTestCase):
         if instance:
             _antiddos = resource.AntiDDos(None, instance, attached=True)
         else:
-            seed = random.randint(0, len(self.instances) - 1)
-            _antiddos = resource.AntiDDos(
-                None, self.instances[seed], attached=True
-            )
+            _antiddos = resource.AntiDDos(None, self.antiddos, attached=True)
         return _antiddos
 
     def get_fake_task_response(self, task_id=None):
@@ -235,7 +241,7 @@ class TestAntiDDosOpen(TestAntiDDos):
     def test_antiddos_open_with_enabled_l7(self, mocked):
         args = [
             "floating_ip_id_1",
-            "--enable-l7",
+            "--enable-CC",
             "--maximum-service-traffic", "70",
             "--http-request-rate", "240",
         ]
@@ -266,7 +272,7 @@ class TestAntiDDosOpen(TestAntiDDos):
     def test_antiddos_open_with_disabled_l7(self, mocked):
         args = [
             "floating_ip_id_1",
-            "--disable-l7",
+            "--disable-CC",
             "--maximum-service-traffic", "10",
             "--http-request-rate", "100",
         ]
@@ -301,22 +307,27 @@ class TestAntiDDosShow(TestAntiDDos):
         self.cmd = antiddos.ShowAntiDDos(self.app, None)
 
     @mock.patch.object(antiddos_mgr.AntiDDosManager, "_list")
-    def test_antiddos_show_with_ip(self, mocked_list):
+    @mock.patch.object(antiddos_mgr.AntiDDosManager, "_get")
+    def test_antiddos_show_with_ip(self, mocked_get, mocked_list):
         ip = "192.168.42.221"
         args = [ip]
         verify_args = [("floating_ip", ip), ]
         parsed_args = self.check_parser(self.cmd, args, verify_args)
         antiddos_list = self.get_fake_antiddos_list()
         mocked_list.return_value = antiddos_list
+
+        _antiddos = self.get_fake_antiddos()
+        mocked_get.return_value = _antiddos
         columns, data = self.cmd.take_action(parsed_args)
         mocked_list.assert_called_once_with(
             "/antiddos", params={"ip": ip}, key='ddosStatus'
         )
-        self.assertEqual(columns, resource.AntiDDos.list_column_names)
-        self.assertEqual(data, antiddos_list[0].get_display_data(columns))
+        self.assertEqual(columns, resource.AntiDDos.show_column_names)
+        self.assertEqual(data, _antiddos.get_display_data(columns))
 
     @mock.patch.object(antiddos_mgr.AntiDDosManager, "_list")
-    def test_antiddos_find_return_single_result(self, mocked_list):
+    @mock.patch.object(antiddos_mgr.AntiDDosManager, "_get")
+    def test_antiddos_find_return_single_result(self, mocked_get, mocked_list):
         ip = "192.168.42.221"
         args = [ip]
         verify_args = [("floating_ip", ip), ]
@@ -324,12 +335,15 @@ class TestAntiDDosShow(TestAntiDDos):
 
         antiddos_list = self.get_fake_antiddos_list(1)
         mocked_list.return_value = antiddos_list
+
+        _antiddos = self.get_fake_antiddos()
+        mocked_get.return_value = _antiddos
         columns, data = self.cmd.take_action(parsed_args)
         mocked_list.assert_called_once_with(
             "/antiddos", params={"ip": ip}, key='ddosStatus'
         )
-        self.assertEqual(columns, resource.AntiDDos.list_column_names)
-        self.assertEqual(data, antiddos_list[0].get_display_data(columns))
+        self.assertEqual(columns, resource.AntiDDos.show_column_names)
+        self.assertEqual(data, _antiddos.get_display_data(columns))
 
     @mock.patch.object(antiddos_mgr.AntiDDosManager, "_list")
     def test_antiddos_show_multiple_ip_matched(self, mocked_list):
@@ -356,7 +370,7 @@ class TestAntiDDosShow(TestAntiDDos):
         mocked_get.assert_called_once_with(
             "/antiddos/" + floating_ip_id
         )
-        self.assertEqual(columns, resource.AntiDDos.list_column_names)
+        self.assertEqual(columns, resource.AntiDDos.show_column_names)
         self.assertEqual(data, _antiddos.get_display_data(columns))
 
     @mock.patch.object(antiddos_mgr.AntiDDosManager, "_list")
@@ -380,7 +394,7 @@ class TestAntiDDosSet(TestAntiDDos):
     def test_antiddos_open_with_enabled_l7(self, mocked):
         args = [
             "floating_ip_id_1",
-            "--enable-l7",
+            "--enable-CC",
             "--maximum-service-traffic", "70",
             "--http-request-rate", "240",
         ]
@@ -489,7 +503,7 @@ class TestAntiDDosStatusShow(TestAntiDDos):
 
         with self.mocked_find:
             mocked_get.return_value = resource.AntiDDosStatus(
-                None, dict(status=self._antiddos.status), attached=True
+                None, dict(status='status'), attached=True
             )
             columns, data = self.cmd.take_action(parsed_args)
             mocked_get.assert_called_once_with(
@@ -499,7 +513,7 @@ class TestAntiDDosStatusShow(TestAntiDDos):
 
             self.assertEqual(columns,
                              resource.AntiDDosStatus.show_column_names)
-            self.assertEqual(tuple(data), (self._antiddos.status,))
+            self.assertEqual(tuple(data), ('status',))
 
 
 @mock.patch.object(antiddos_mgr.AntiDDosManager, "_list")
@@ -608,7 +622,7 @@ class TestListAntiDDosWeeklyReport(TestAntiDDos):
         parsed_args = self.check_parser(
             self.cmd,
             ["--start-date", "2017-02-08"],
-            [("start_date", datetime.datetime(2017, 2, 8)),],
+            [("start_date", datetime.datetime(2017, 2, 8)), ],
         )
 
         weekly = {

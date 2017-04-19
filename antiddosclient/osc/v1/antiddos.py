@@ -14,10 +14,11 @@
 #
 import logging
 
-from antiddosclient.common import parsetypes
+from keystoneauth1 import exceptions
 from osc_lib.command import command
 
 from antiddosclient.common import parser as p
+from antiddosclient.common import parsetypes
 from antiddosclient.common.i18n import _
 from antiddosclient.osc.v1 import parser_builder as pb
 from antiddosclient.v1 import resource
@@ -97,8 +98,17 @@ class ShowAntiDDos(command.ShowOne):
     def take_action(self, args):
         client = self.app.client_manager.antiddos
         _antiddos = client.antiddos.find(args.floating_ip)
-        columns = resource.AntiDDos.list_column_names
-        return columns, _antiddos.get_display_data(columns)
+        # if user pass ip, we should reload antiddos object
+        if _antiddos.floating_ip_id != args.floating_ip:
+            _antiddos = client.antiddos.get_antiddos(_antiddos.floating_ip_id)
+
+        if 'status' in _antiddos.original and _antiddos.status == 'notConfig':
+            raise exceptions.NotFound(
+                'This operation is not allowed in the current status.'
+            )
+        else:
+            columns = resource.AntiDDos.show_column_names
+            return columns, _antiddos.get_display_data(columns)
 
 
 class SetAntiDDos(command.Command):

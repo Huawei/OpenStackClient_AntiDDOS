@@ -37,16 +37,9 @@ class TestAntiDDosPlugin(base.BaseTestCase):
         instance.interface = fakes.INTERFACE
         plugin.make_client(instance)
 
-        kwargs = {
-            'region_name': instance.region_name,
-            'interface': instance.interface
-        }
-
         client.assert_called_once_with(
             instance.session,
-            "http://antiddos.endpoint",
-            region_name=fakes.REGION_NAME,
-            interface=fakes.INTERFACE,
+            "http://antiddos.endpoint"
         )
 
     def test_plugin_parser(self):
