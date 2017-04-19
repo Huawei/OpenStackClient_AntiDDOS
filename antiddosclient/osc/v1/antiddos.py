@@ -143,6 +143,12 @@ class SetAntiDDos(command.Command):
 
     def take_action(self, args):
         client = self.app.client_manager.antiddos
+        if not args.enable_l7 and args.http_request_rate:
+            raise argparse.ArgumentTypeError(
+                'argument --http-request-rate only effect'
+                'when CC defence protection is enabled'
+            )
+
         floating_ip = client.antiddos.find(args.floating_ip)
 
         # issue 8, cleaning-pos fixed to 8, app-type fixed to 1
