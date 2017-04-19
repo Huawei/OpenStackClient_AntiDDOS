@@ -104,7 +104,7 @@ class ShowAntiDDos(command.ShowOne):
 
         if 'status' in _antiddos.original and _antiddos.status == 'notConfig':
             raise exceptions.NotFound(
-                'This operation is not allowed in the current status.'
+                'You have not config antiddos for this floating ip yet.'
             )
         else:
             columns = resource.AntiDDos.show_column_names
