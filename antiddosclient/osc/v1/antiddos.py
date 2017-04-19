@@ -59,13 +59,13 @@ class OpenAntiDDos(command.Command):
         client = self.app.client_manager.antiddos
 
         if args.enable_l7 and not args.http_request_rate:
-            raise argparse.ArgumentError(
+            raise argparse.ArgumentTypeError(
                 'argument --http-request-rate is required '
                 'when CC defence protection is enabled'
             )
 
         if not args.enable_l7 and args.http_request_rate:
-            raise argparse.ArgumentError(
+            raise argparse.ArgumentTypeError(
                 'argument --http-request-rate only effect'
                 'when CC defence protection is enabled'
             )
