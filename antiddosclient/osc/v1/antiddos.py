@@ -121,7 +121,7 @@ class ShowAntiDDos(command.ShowOne):
                 'You have not config antiddos for this floating ip yet.'
             )
         else:
-            if not _antiddos.enable_l7:
+            if not _antiddos.enable_L7:
                 columns = resource.AntiDDos.show_column_names[:-1]
             else:
                 columns = resource.AntiDDos.show_column_names
