@@ -75,7 +75,7 @@ class AntiDDosParser(object):
             choices=http_request_rate,
             type=int,
             help=_("HTTP request rate (per second), "
-                   "only effect when L7 is enabled")
+                   "only effect when CC defence protection is enabled")
         )
 
     @staticmethod

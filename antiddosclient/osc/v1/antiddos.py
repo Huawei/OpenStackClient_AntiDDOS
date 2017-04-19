@@ -12,6 +12,7 @@
 #   License for the specific language governing permissions and limitations
 #   under the License.
 #
+import argparse
 import logging
 
 from keystoneauth1 import exceptions
@@ -56,6 +57,18 @@ class OpenAntiDDos(command.Command):
 
     def take_action(self, args):
         client = self.app.client_manager.antiddos
+
+        if not args.enable_l7:
+            raise argparse.ArgumentError(
+                'argument --http-request-rate is required '
+                'when cc defence protection is enabled'
+            )
+        elif args.http_request_rate:
+            raise argparse.ArgumentError(
+                'argument --http-request-rate only effect'
+                'when cc defence protection is enabled'
+            )
+
         floating_ip = client.antiddos.find(args.floating_ip)
         # issue 8, cleaning-pos fixed to 8, app-type fixed to 1
         traffic_pos = pb.AntiDDosParser.get_traffic_pos_id(
@@ -107,7 +120,10 @@ class ShowAntiDDos(command.ShowOne):
                 'You have not config antiddos for this floating ip yet.'
             )
         else:
-            columns = resource.AntiDDos.show_column_names
+            if not _antiddos.enable_l7:
+                columns = resource.AntiDDos.show_column_names[:-1]
+            else:
+                columns = resource.AntiDDos.show_column_names
             return columns, _antiddos.get_display_data(columns)
 
 
