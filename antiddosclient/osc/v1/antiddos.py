@@ -58,15 +58,16 @@ class OpenAntiDDos(command.Command):
     def take_action(self, args):
         client = self.app.client_manager.antiddos
 
-        if not args.enable_l7:
+        if args.enable_l7 and not args.http_request_rate:
             raise argparse.ArgumentError(
                 'argument --http-request-rate is required '
-                'when cc defence protection is enabled'
+                'when CC defence protection is enabled'
             )
-        elif args.http_request_rate:
+
+        if not args.enable_l7 and args.http_request_rate:
             raise argparse.ArgumentError(
                 'argument --http-request-rate only effect'
-                'when cc defence protection is enabled'
+                'when CC defence protection is enabled'
             )
 
         floating_ip = client.antiddos.find(args.floating_ip)
