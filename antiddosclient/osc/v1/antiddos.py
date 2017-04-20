@@ -66,7 +66,7 @@ class OpenAntiDDos(command.Command):
 
         if not args.enable_l7 and args.http_request_rate:
             raise argparse.ArgumentTypeError(
-                'argument --http-request-rate only effect'
+                'argument --http-request-rate only effect '
                 'when CC defence protection is enabled'
             )
 
@@ -117,7 +117,7 @@ class ShowAntiDDos(command.ShowOne):
             _antiddos = client.antiddos.get_antiddos(_antiddos.floating_ip_id)
 
         if 'status' in _antiddos.original and _antiddos.status == 'notConfig':
-            raise exceptions.NotFound(
+            raise exceptions.ClientException(
                 'You have not config antiddos for this floating ip yet.'
             )
         else:
