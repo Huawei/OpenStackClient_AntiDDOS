@@ -19,6 +19,7 @@ from keystoneauth1 import exceptions
 from osc_lib.command import command
 
 from antiddosclient.common import parser as p
+from antiddosclient.common import resource as br
 from antiddosclient.common import parsetypes
 from antiddosclient.common.i18n import _
 from antiddosclient.osc.v1 import parser_builder as pb
@@ -162,6 +163,11 @@ class SetAntiDDos(command.Command):
                                                http_request_pos,
                                                8,
                                                1)
+
+        if isinstance(task, br.StrWithMeta):
+            raise exceptions.ClientException(
+                'this floating ip already has the same configuration'
+            )
         return 'Request Received, task id: ' + task['task_id']
 
 
