@@ -219,3 +219,4 @@ Command Samples
     | Warn Config  | antiDDoS='False', back_doors='False', bruce_force='False', high_privilege='False', remote_login='False',            |
     |              | send_frequency='0', waf='False', weak_password='False'                                                              |
     +--------------+---------------------------------------------------------------------------------------------------------------------
+
